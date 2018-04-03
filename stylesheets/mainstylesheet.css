@@ -1,0 +1,37 @@
+
+body {
+color: black;
+font-family: TimesNewRoman,Times New Roman,Times,Baskerville,Georgia,serif; 
+font-size: 18px;
+}
+
+
+a.main {
+color: blue ;
+}
+a.mainhead {
+  color: black;
+}
+
+a.main:hover, a.mainhead:hover {
+text-decoration: underline ;
+}
+p.ind {
+  text-indent: 25px;
+}
+
+h2.content{
+  color: black; 
+  text-align: left; 
+  text-decoration: underline;
+}
+
+h3 {
+  color: black;
+}
+
+/* All Mobile Sizes (devices and browser) */
+@media only screen and (max-width: 767px) {
+  body {
+	}
+}
