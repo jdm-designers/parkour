@@ -15,3 +15,5 @@ It will run the merging tool you got configured in your .gitconfig file.
 After that you can push your changes.
 
 #Practice Edit
+
+#Practice Edit 2
