@@ -30,7 +30,11 @@ div.wrap_all{
 	width: 1000px;
 }
 
-div.side_menu{
+.vspace{
+margin-bottom: 20px;
+}
+
+.vspace > div.side_menu{
 background-color: #AFADAD;
 padding: 20px;
 height: inherit;
@@ -47,22 +51,28 @@ margin-top: 100px;
 border: 3px solid black;
 width: 470px;
 height: 100px;
+display: flex;
+flex-direction: column;
 }
-span.address{
+.column_row{
+width: 100%;
+display: flex;
+flex-direction: row;
+}
+div.address{
 background-color: white;
 margin:5px;
 border: 1px solid black;
 border-radius: 10px;
 width: 80%;
-height: 60px;
+height: 50px;
 }
-span.finish{
-display: inline
+div.finish{
 background-color: white;
 margin:5px;
 border: 1px solid black;
-width: 20px;
-height: 20px;
+width: 30px;
+height: 30px;
 }
 div.datetime{
 width:100%;
@@ -97,7 +107,6 @@ a.menu {
   color: white;
 font-size: 22px;
 text-decoration: none;
-padding-bottom: 40px;
 }
 a.menu:hover{
 text-decoration: underline;
