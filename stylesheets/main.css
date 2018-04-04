@@ -2,7 +2,7 @@
 body {
 color: black;
 font-family: TimesNewRoman,Times New Roman,Times,Baskerville,Georgia,serif; 
-font-size: 18px;
+font-size: 14px;
 background-color: white;
 }
 
@@ -62,8 +62,12 @@ h2.content{
   text-decoration: underline;
 }
 
-h3 {
-  color: black;
+a.menu {
+  color: white;
+font-size: 17px;
+}
+a.menu:hover{
+text-decoration: underline;
 }
 
 /* All Mobile Sizes (devices and browser) */
