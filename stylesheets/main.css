@@ -1,4 +1,9 @@
 
+body, html{
+height: 100%;
+margin: 0;
+}
+
 body {
 color: black;
 font-family: TimesNewRoman,Times New Roman,Times,Baskerville,Georgia,serif; 
@@ -10,7 +15,8 @@ background-color: white;
 div.map{
 background: url("https://jdm-designers.github.io/parkour/images/bigmap.png"); 
 background-repeat: no-repeat ;
-background-size: 100% 100%;
+background-size: cover;
+background-position: center;
 display: flex;
 flex-direction: row;
 }
