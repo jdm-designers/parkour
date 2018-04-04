@@ -18,6 +18,7 @@ background-repeat: no-repeat ;
 height: 100%;
 background-size: cover;
 background-position: center;
+width: 100%;
 display: flex;
 flex-direction: row;
 }
@@ -31,9 +32,9 @@ div.wrap_all{
 
 div.side_menu{
 background-color: #AFADAD;
-padding: 30px;
+padding: 20px;
 height: 100%;
-width: 100px;
+width: 150px;
 border: 4px solid black;
 }
 
@@ -70,7 +71,7 @@ h2.content{
 
 a.menu {
   color: white;
-font-size: 17px;
+font-size: 22px;
 }
 a.menu:hover{
 text-decoration: underline;
