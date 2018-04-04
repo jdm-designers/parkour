@@ -38,32 +38,30 @@ width: 150px;
 border: 3px solid black;
 }
 
-div.right{
-width: 100%;
-align: right;
-}
 div.big_box{
+position: absolute;
+right: 100px;
 background-color: #AFADAD;
 padding: 10px;
-margin: 100px;
+margin-top: 100px;
 border: 3px solid black;
-width: 400px;
-height: 200px;
+width: 500px;
+height: 100px;
 }
 div.address{
 background-color: white;
 margin:5px;
 border: 1px solid black;
 border-radius: 10px;
-width: 90%;
-height: 10px;
+width: 80%;
+height: 30px;
 }
 div.finish{
 background-color: white;
 margin:5px;
 border: 1px solid black;
-width: 50px;
-height: 50px;
+width: 20px;
+height: 20px;
 }
 div.datetime{
 width:100%;
@@ -98,7 +96,7 @@ a.menu {
   color: white;
 font-size: 22px;
 text-decoration: none;
-line-height: 60px;
+padding-bottom: 20px;
 }
 a.menu:hover{
 text-decoration: underline;
