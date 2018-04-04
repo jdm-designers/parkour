@@ -34,7 +34,7 @@ div.wrap_all{
 margin-bottom: 20px;
 }
 
-.vspace > div.side_menu{
+div.side_menu{
 background-color: #AFADAD;
 padding: 20px;
 height: inherit;
@@ -65,7 +65,7 @@ margin:5px;
 border: 1px solid black;
 border-radius: 10px;
 width: 80%;
-height: 50px;
+height: 35px;
 }
 div.finish{
 background-color: white;
