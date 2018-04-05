@@ -30,7 +30,7 @@ div.wrap_all{
 	width: 1000px;
 }
 
-.vspace{
+div.vspace{
 margin-bottom: 20px;
 }
 
@@ -50,14 +50,15 @@ padding: 10px;
 margin-top: 100px;
 border: 3px solid black;
 width: 470px;
-height: 100px;
+height: 80px;
 display: flex;
 flex-direction: column;
 }
-.column_row{
+.rowincolumn{
 width: 100%;
 display: flex;
 flex-direction: row;
+margin-bottom: 22px;
 }
 div.address{
 background-color: white;
@@ -65,14 +66,16 @@ margin:5px;
 border: 1px solid black;
 border-radius: 10px;
 width: 80%;
-height: 35px;
+height: 20px;
 }
 div.finish{
 background-color: white;
 margin:5px;
 border: 1px solid black;
 width: 30px;
-height: 30px;
+height: 20px;
+text-align: center;
+padding: 2px;
 }
 div.datetime{
 width:100%;
