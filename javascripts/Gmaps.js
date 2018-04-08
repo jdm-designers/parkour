@@ -103,11 +103,11 @@ function geocodeAddress(geocoder, resultsMap) {
     );
 };
 
-function formFilled(pos){ // Ideally, the address that they inserted would be converted into latitude and longitude, that seems really hard.
-    let F_address = document.getElementById("address");
-    let F_parkdate = document.getElementById("parkdate");
-    let F_parkstart = document.getElementById("parkstart");
-    let F_parkend = document.getElementById("parkend");
+function formFilled(pos){
+    let F_address = document.getElementById("address").value;
+    let F_parkdate = document.getElementById("parkdate").value;
+    let F_parkstart = document.getElementById("parkstart").value;
+    let F_parkend = document.getElementById("parkend").value;
 
     let latitude = pos.lat;
     let longitude = pos.lng;
