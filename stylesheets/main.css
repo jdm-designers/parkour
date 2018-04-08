@@ -2,6 +2,7 @@
 body, html{
 height: 100%;
 margin: 0;
+padding:0;
 }
 
 body {
@@ -11,7 +12,7 @@ font-size: 14px;
 background-color: white;
 }
 
-
+/*
 div.map{
 background: url("https://jdm-designers.github.io/parkour/images/bigmap.png"); 
 background-repeat: no-repeat ;
@@ -29,27 +30,36 @@ div.wrap_all{
 	margin: auto;
 	width: 1000px;
 }
-
-div.vspace{
-margin-bottom: 20px;
+*/
+#map {
+  height: 100%;
 }
 
 div.side_menu{
-background-color: #AFADAD;
+background:rgba(175,173,173, 0.85); /* #AFADAD;*/
+/*opacity: 0.1;*/
+filter: alpha(opacity=85); /* IE8 and lower */
+position: absolute;
+left: 0;
+z-index: 5;
 padding: 20px;
-height: inherit;
+height: 100%;
 width: 150px;
 border: 3px solid black;
 }
+div.side_menu > .vspace{
+  margin-bottom: 20px;
+  }
 
 div.big_box{
 position: absolute;
 right: 100px;
+z-index: 5;
 background-color: #AFADAD;
 padding: 10px;
 margin-top: 100px;
 border: 3px solid black;
-width: 450px;
+width: 440px;
 height: 80px;
 display: flex;
 flex-direction: column;
@@ -84,6 +94,11 @@ div.datetime{
 width:100%;
 }
 
+#lens{
+  vertical-align: middle;
+  opacity: 0.5;
+  filter: alpha(opacity=50);
+}
 
 a.main {
 color: blue ;
@@ -121,5 +136,6 @@ text-decoration: underline;
 /* All Mobile Sizes (devices and browser) */
 @media only screen and (max-width: 767px) {
   body {
+    background-color: white;
 	}
 }
