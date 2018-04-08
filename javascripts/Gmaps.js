@@ -9,15 +9,19 @@ if ( typeof(Storage) !== "undefined") // see if local storage can be done.
 
 
 var map; // This is for the google Maps functions
-//var markers = [];
+var markers = [];
+var infowindows = [];
+let goButton = document.querySelector(".finish")
 
-function addMarker(location){ // This adds and displays a marker.
+function addMarker(location, tag){ // This adds and displays a marker.
     let marker = new google.maps.Marker( 
         {
             position: location,
-            map: map
+            map: map,
+            tagger: tag
         }
     );
+    return marker
 };
 
 
@@ -33,7 +37,7 @@ function initialMapcenter(userlatitude, userlongitude){ // When the user first r
     );
 };
 
-function initMap() {
+function initMap() { // get or pick location to center on Map
     function geo_success(position){  // get user's location 
         userlatitude = position.coords.latitude;
         userlongitude = position.coords.longitude;
@@ -62,27 +66,57 @@ function initMap() {
         
         geo_error();
     }
+
+    var geocoder = new google.maps.Geocoder();
+
+    goButton.addEventListener( // set this button to "listen for clicks"
+        'click', function(){ geocodeAddress(geocoder, map) }
+    );
     
 };
 
-let goButton = document.querySelector(".finish")
+function geocodeAddress(geocoder, resultsMap) {
+    var address = document.getElementById('address').value;
+    geocoder.geocode( 
+        {'address': address}, function(results, status){
+            if (status === 'OK') 
+            {
+                resultsMap.setCenter(results[0].geometry.location); // re-centers the map
+                let newlocation = {lat: results[0].geometry.location.lat(), lng: results[0].geometry.location.lng() }; 
 
-function formFilled(){ // Ideally, the address that they inserted would be converted into latitude and longitude, that seems really hard.
+                //initialMapcenter(newlocation); // redefines the "map" variable and re-centers // this isn't allowed to be re-called.
+
+                formFilled(newlocation);
+                /*
+                var marker = new google.maps.Marker({
+                map: resultsMap,
+                position: results[0].geometry.location
+                });
+                */
+            } 
+            else 
+            {
+                //alert('Geocode was not successful for the following reason: ' + status);
+                alert('I could not process this address. Reason:' + status);
+            }
+        }
+    );
+};
+
+function formFilled(pos){ // Ideally, the address that they inserted would be converted into latitude and longitude, that seems really hard.
     let F_address = document.getElementById("address");
     let F_parkdate = document.getElementById("parkdate");
     let F_parkstart = document.getElementById("parkstart");
     let F_parkend = document.getElementById("parkend");
 
-    let pos = JSON.parse( localStorage.userposition );
     let latitude = pos.lat;
     let longitude = pos.lng;
-    console.log(latitude);
 
     // if there are any markers, delete them. Or they just have to refresh the page.
 
     // add markers where all of the posted parking spots should be (near the address).
     let Pspots = [];
-    for (i=0; i < 10; i++)
+    for (i=1; i < 11; i++) // add 10 markers
     {
         if ( i % 2 == 0 )
         { var lat_adder = i*0.001 } // 'var' so that it escapes the IF statement
@@ -98,10 +132,38 @@ function formFilled(){ // Ideally, the address that they inserted would be conve
         );
     }
     for (i=0; i <10 ; i++)
-    { addMarker(Pspots[i]) }
+    { 
+        var newmarker = addMarker(Pspots[i], i) ;
+
+        var contentString = `<h1>Name: Driveway ${i+1}</h2>`+
+        `<p>Address: ...`+
+        `<br>Rate: \$2/hour`+
+        `<br>Availability: ...`+
+        `<br>Host's Rating: ${i+1} out of 10`+
+        `</p>`+
+        `Image of driveway`;
+
+        var infowindow = new google.maps.InfoWindow({
+            content: contentString
+          });
+
+        infowindows.push( infowindow );
+        markers.push( newmarker );
+
+        markers[i].addListener(
+            'click', function(){ 
+                console.log( this.tagger );
+                infowindows[this.tagger].open( map, this ) // the FOR loop is not active here so the "i" counter isn't available.
+            }
+        );
+
+    }
 };
 
 
+/* Thanks to the "addListener" this is no longer needed.
 goButton.onclick = function(){
-    formFilled();
+    let pos = JSON.parse( localStorage.userposition );
+    formFilled(pos);
 };
+*/
