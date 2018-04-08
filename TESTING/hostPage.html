@@ -3,11 +3,12 @@
 <title>
 I'm a Host
 </title>
+<link rel="stylesheet" href="stylesheets/hostPageStyleSheet.css" type="text/css"/>
 </head>
 <body>
-<h1>Parkour</h1>
-<p>Have an extra parking space you don't use? Rent it out by the hour to earn some extra money. It's that simple.</p>
-<form id="createSpot">
+<h1 style="position: relative; left: 80px">Parkour</h1>
+<p style="position: relative; left: 80px">Have an extra parking space you don't use? Rent it out by the hour to earn some extra money. It's that simple.</p>
+<form style="position: relative; left: 80px" id="createSpot">
 	Full Name: <input type="text" maxlength="20"/>
 	<br/>
 	<br/>
@@ -16,22 +17,22 @@ I'm a Host
 	<br/>
 	Address: <input type="text" maxlength="50"/>
 </form>
-Add a Streetview Image of Your Parking Space
+<div style="position: relative; left: 80px">Add a Streetview Image of Your Parking Space: </div>
 <br/>
-<img src="images/streetview.png">
+<img style="position: relative; left: 90px" src="images/streetview.png">
 <br/>
-<img src="images/calendar.png">
+<img style="position: relative; left: 85px" src="images/calendar.png">
 <br/>
-<form id="selectTime">
-	9 am - 10 am <input type="checkbox" name="time" value="9-10"/>
+<form style="position: relative; left: 85px" id="selectTime">
+     <input type="checkbox" name="time" value="9-10"/> 9 am - 10 am
 	<br/>
-	10 am - 11 am <input type="checkbox" name="time" value="10-11"/>
+     <input type="checkbox" name="time" value="10-11"/> 10 am - 11 am
 	<br/>
-	11 am - 12 pm <input type="checkbox" name="time" value="11-12"/>
+    <input type="checkbox" name="time" value="11-12"/> 11 am - 12 pm
 	<br/>
-	12 pm - 1 pm <input type="checkbox" name="time" value="12-1"/>
+	 <input type="checkbox" name="time" value="12-1"/> 12 pm - 1 pm
 	<br/>
-	1 pm - 2 pm <input type="checkbox" name="time" value="1-2"/>
+	 <input type="checkbox" name="time" value="1-2"/> 1 pm - 2 pm
 	<br/>
 	Recurring Weekly <input type="checkbox" name="recurring" value="yes"/>
 	<br/>
