@@ -9,13 +9,13 @@ I'm a Host
 <h1 style="position: relative; left: 80px">Parkour</h1>
 <p style="position: relative; left: 80px">Have an extra parking space you don't use? Rent it out by the hour to earn some extra money. It's that simple.</p>
 <form style="position: relative; left: 80px" id="createSpot">
-	Full Name: <input type="text" maxlength="20"/>
+	Full Name: <input type="text" id="firstTextBox" maxlength="20"/>
 	<br/>
 	<br/>
-	Email: <input type="text" maxlength="20"/>
+	Email: <input type="text" id="secondTextBox" maxlength="20"/>
 	<br/>
 	<br/>
-	Address: <input type="text" maxlength="50"/>
+	Address: <input type="text" id="thirdTextBox" maxlength="50"/>
 </form>
 <div style="position: relative; left: 80px">Add a Streetview Image of Your Parking Space: </div>
 <br/>
@@ -24,23 +24,59 @@ I'm a Host
 <img style="position: relative; left: 85px" src="images/calendar.png">
 <br/>
 <form style="position: relative; left: 85px" id="selectTime">
-     <input type="checkbox" name="time" value="9-10"/> 9 am - 10 am
+     <input type="checkbox" id="firstCheckbox" name="time" value="9-10"/> 9 am - 10 am
 	<br/>
-     <input type="checkbox" name="time" value="10-11"/> 10 am - 11 am
+     <input type="checkbox" id="secondCheckbox" name="time" value="10-11"/> 10 am - 11 am
 	<br/>
-    <input type="checkbox" name="time" value="11-12"/> 11 am - 12 pm
+    <input type="checkbox" id="thirdCheckbox" name="time" value="11-12"/> 11 am - 12 pm
 	<br/>
-	 <input type="checkbox" name="time" value="12-1"/> 12 pm - 1 pm
+	 <input type="checkbox" id="fourthCheckbox" name="time" value="12-1"/> 12 pm - 1 pm
 	<br/>
-	 <input type="checkbox" name="time" value="1-2"/> 1 pm - 2 pm
+	 <input type="checkbox" id="fifthCheckbox" name="time" value="1-2"/> 1 pm - 2 pm
 	<br/>
-	Recurring Weekly <input type="checkbox" name="recurring" value="yes"/>
+	Recurring Weekly <input type="checkbox" id="sixthCheckbox" name="recurring" value="yes"/>
 	<br/>
-	Hourly Rate: <input type="text" maxlength="5"/>
+	Hourly Rate: <input type="text" id="fourthTextBox" maxlength="5"/>
 	<br/>
-	I Agree to the Terms and Conditions <input type="checkbox" name="Terms" value="Yes"/>
+	I Agree to the Terms and Conditions <input type="checkbox" id="seventhCheckbox" name="Terms" value="Yes"/>
 	<br/>
-	<input type="submit" value="Submit"/>
+	<input type="submit" value="Submit" id="submitButton"/>
 </form>
+<script>
+if (typeof(Storage) !== "undefined") {
+	name = "Jack Smith"
+	if (localStorage.getItem(name) !== null) {
+		console.log(JSON.parse(localStorage.getItem(name)));
+	}
+	var submitButton = document.querySelector('#submitButton')
+	var firstTextBox = document.querySelector('#firstTextBox')
+	var secondTextBox = document.querySelector('#secondTextBox')
+	var thirdTextBox = document.querySelector('#thirdTextBox')
+	var firstCheckbox = document.querySelector('#firstCheckbox')
+	var secondCheckbox = document.querySelector('#secondCheckbox')
+	var thirdCheckbox = document.querySelector('#thirdCheckbox')
+	var fourthCheckbox = document.querySelector('#fourthCheckbox')
+	var fifthCheckbox = document.querySelector('#fifthCheckbox')
+	var sixthCheckbox = document.querySelector('#sixthCheckbox')
+	var fourthTextBox = document.querySelector('#fourthTextBox')
+	var seventhCheckbox = document.querySelector('#sixthCheckbox')
+	submitButton.onclick = function() {
+		var newSpot = {}
+		newSpot.firstTextBox = firstTextBox.value;
+		newSpot.secondTextBox = secondTextBox.value;
+		newSpot.thirdTextBox = thirdTextBox.value;
+		newSpot.firstCheckbox = firstCheckbox.checked
+		newSpot.secondCheckbox = secondCheckbox.checked
+		newSpot.thirdCheckbox = thirdCheckbox.checked
+		newSpot.fourthCheckbox = fourthCheckbox.checked
+		newSpot.fifthCheckbox = fifthCheckbox.checked
+		newSpot.sixthCheckbox = sixthCheckbox.checked
+		newSpot.fourthTextBox = fourthTextBox.value
+		newSpot.seventhCheckbox = seventhCheckbox.checked
+		localStorage.setItem(firstTextBox.value, JSON.stringify(newSpot))
+		alert("Your Spot Has Been Submitted");
+	};
+} 
+</script>
 </body>
 </html>
