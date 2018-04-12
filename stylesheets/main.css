@@ -23,16 +23,12 @@ width: 100%;
 display: flex;
 flex-direction: row;
 }
-div.wrap_all{
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	margin: auto;
-	width: 1000px;
-}
 */
 #map {
   height: 100%;
+}
+button{
+  text-align: center;
 }
 
 div.side_menu{
@@ -87,7 +83,6 @@ margin:5px;
 border: 1px solid black;
 width: 30px;
 height: 20px;
-text-align: center;
 padding: 2px;
 }
 div.datetime{
@@ -100,6 +95,32 @@ width:100%;
   filter: alpha(opacity=50);
 }
 
+div.msgbox{
+  display: none;
+  position: absolute;
+  left: 40%;
+  top: 40%;
+  /*height: 250px;
+  width: 250px;*/
+  max-width: 350px;
+  background-color: rgb(45, 179, 231);
+  color: white;
+  z-index: 5;
+  padding: 10px;
+  border: 2px solid black;
+  font-size: 20px;
+  text-align: center;
+}
+div.msgbox > button.ok{
+  background-color: white;
+  padding: 10px;
+  /*margin-left: 40%;*/
+}
+
+#iwindow{
+  font-size: 16px;
+}
+
 a.main {
 color: blue ;
 }
@@ -110,13 +131,15 @@ a.mainhead {
 a.main:hover, a.mainhead:hover {
 text-decoration: underline ;
 }
-p.ind {
-  text-indent: 25px;
-}
 
 h1 {
   text-align: center;
 }
+/*
+h3 {
+  text-align: center;
+}
+*/
 
 h2.content{
   color: black; 
