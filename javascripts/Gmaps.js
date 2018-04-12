@@ -8,10 +8,18 @@ if ( typeof(Storage) !== "undefined") // see if local storage can be done.
 }
 
 
-var map; // This is for the google Maps functions
+var map; // This is for the google Maps related functions
 var markers = [];
 var infowindows = [];
-let goButton = document.querySelector(".finish")
+let goButton = document.querySelector(".finish");
+
+// on click ... delete the default "value"
+var addressbarclicks = 0;
+var addressbar = document.getElementById("address");
+addressbar.onclick = function(){
+    if (addressbarclicks == 0){ addressbar.value = '' };
+    addressbarclicks += 1;
+}
 
 function addMarker(location, tag){ // This adds and displays a marker.
     let marker = new google.maps.Marker( 
@@ -70,12 +78,19 @@ function initMap() { // get or pick location to center on Map
     var geocoder = new google.maps.Geocoder();
 
     goButton.addEventListener( // set this button to "listen for clicks"
-        'click', function(){ geocodeAddress(geocoder, map) }
+        'click', function(){ 
+            // stop the user if the user they did not insert an address and a Date and a time.  Have a message box with an OK button.
+
+            let F_address = document.getElementById("address").value;
+            let F_parkdate = document.getElementById("parkdate").value;
+            let F_parkstart = document.getElementById("parkstart").value;
+            let F_parkend = document.getElementById("parkend").value;
+            geocodeAddress(geocoder, map) }
     );
     
 };
 
-function geocodeAddress(geocoder, resultsMap) {
+function geocodeAddress(geocoder, resultsMap) { // convert the address into longitude and latitude
     var address = document.getElementById('address').value;
     geocoder.geocode( 
         {'address': address}, function(results, status){
@@ -97,7 +112,8 @@ function geocodeAddress(geocoder, resultsMap) {
             else 
             {
                 //alert('Geocode was not successful for the following reason: ' + status);
-                alert('I could not process this address. Reason:' + status);
+                alert('I could not process this address. Reason:' + status); // Make this into a message box instead!
+
             }
         }
     );
@@ -136,9 +152,9 @@ function formFilled(pos){
         var newmarker = addMarker(Pspots[i], i) ;
 
         var contentString = `<h1>Name: Driveway ${i+1}</h2>`+
-        `<p>Address: ...`+
+        `<p>Street: ${i+1} Ugly Ducklings Street`+
         `<br>Rate: \$2/hour`+
-        `<br>Availability: ...`+
+        `<br>Availability: ...`+  // Have this contain the same Date and Times the user already inserted.
         `<br>Host's Rating: ${i+1} out of 10`+
         `</p>`+
         `Image of driveway`;
