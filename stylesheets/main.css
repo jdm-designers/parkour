@@ -77,13 +77,15 @@ height: 20px;
 display: flex;
 flex-direction: row;
 }
-div.finish{
+button.finish{
 background-color: white;
-margin:5px;
+margin: 5px;
 border: 1px solid black;
-width: 30px;
-height: 20px;
+width: 40px;
+height: 40px;
 padding: 2px;
+font-size: 17px;
+cursor: pointer;
 }
 div.datetime{
 width:100%;
@@ -117,7 +119,9 @@ div.msgbox > button.ok{
   /*margin-left: 40%;*/
 }
 div.msgbox > .rowincolumn{
-
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around ;
 }
 
 div.iwindow{
@@ -126,13 +130,14 @@ div.iwindow{
 p.iwindow{
   font-size: 16px;
 }
-div.iwindow > button.book{
+button.book{
   background-color: rgb(45, 179, 231);
   color: white;
   font-size: 18px;
   padding: 7px;
   border: 1px solid black;
-  display: inline-block;
+  text-decoration: none;
+  cursor: pointer;
 }
 
 a.main {

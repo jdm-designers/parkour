@@ -206,8 +206,7 @@ function formFilled(pos){
         `<br>Availability:  `+F_parkstart+` - `+F_parkend+
         `<br>Host's Rating:  ${i-i_begin+1} out of 10`+
         `</p>`+
-        `    Image of driveway`+
-        `<button class="book">Book</button>`+
+        `<div class="rowincolumn">  <p>Image of driveway</p> <button class="book">Book</button>  </div>`+
         `</div>`;
 
         var infowindow = new google.maps.InfoWindow({
