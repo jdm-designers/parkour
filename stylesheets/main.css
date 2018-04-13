@@ -49,11 +49,11 @@ div.side_menu > .vspace{
 
 div.big_box{
 position: absolute;
-right: 100px;
+right: 60px;
 z-index: 5;
 background-color: #AFADAD;
 padding: 10px;
-margin-top: 100px;
+margin-top: 10px;
 border: 3px solid black;
 width: 440px;
 height: 80px;
@@ -115,6 +115,9 @@ div.msgbox > button.ok{
   background-color: white;
   padding: 10px;
   /*margin-left: 40%;*/
+}
+div.msgbox > .rowincolumn{
+
 }
 
 div.iwindow{
