@@ -117,8 +117,19 @@ div.msgbox > button.ok{
   /*margin-left: 40%;*/
 }
 
-#iwindow{
+div.iwindow{
+  display: block;
+}
+p.iwindow{
   font-size: 16px;
+}
+div.iwindow > button.book{
+  background-color: rgb(45, 179, 231);
+  color: white;
+  font-size: 18px;
+  padding: 7px;
+  border: 1px solid black;
+  display: inline-block;
 }
 
 a.main {

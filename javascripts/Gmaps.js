@@ -173,7 +173,7 @@ function formFilled(pos){
     let latitude = pos.lat;
     let longitude = pos.lng;
 
-    // if there are any markers, delete them. Or they just have to refresh the page.
+    // if there are any markers, delete them. Or they just have to refresh the page.... For now, they just have to refresh the page.
 
     // add markers where all of the posted parking spots should be (near the address).!
     for (i=1; i < 11; i++) // add 10 markers
@@ -198,17 +198,20 @@ function formFilled(pos){
     { 
         var newmarker = addMarker(Pspots[i], i) ;
 
-        var contentString = `<h1>Name: Driveway ${i+1}</h2>`+
-        `<p id="iwindow">Street: ${i-i_begin+1} Ugly Ducklings Street`+
-        `<br>Rate: \$2/hour`+
-        `<br>Date: `+human_date+  // Have this contain the same Date and Times the user already inserted.
-        `<br>Availability: `+F_parkstart+` - `+F_parkend+
-        `<br>Host's Rating: ${i-i_begin+1} out of 10`+
+        var mycontent = `<div class="iwindow">`+
+        `<h1>Name: Driveway ${i+1}</h2>`+
+        `<p class="iwindow">Street:  ${i-i_begin+1} Ugly Ducklings Street`+
+        `<br>Rate:  \$2/hour`+
+        `<br>Date:  `+human_date+  // Have this contain the same Date and Times the user already inserted.
+        `<br>Availability:  `+F_parkstart+` - `+F_parkend+
+        `<br>Host's Rating:  ${i-i_begin+1} out of 10`+
         `</p>`+
-        `<center>Image of driveway</center>`;
+        `    Image of driveway`+
+        `<button class="book">Book</button>`+
+        `</div>`;
 
         var infowindow = new google.maps.InfoWindow({
-            content: contentString
+            content: mycontent
           });
 
         infowindows.push( infowindow );
