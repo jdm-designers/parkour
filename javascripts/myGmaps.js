@@ -15,7 +15,7 @@ var markers = [];
 var Pspots = [];
 var Nphonyspots = 10;
 var infowindows = [];
-let goButton = document.querySelector(".finish");
+let goButton = document.querySelector(".form");
 
 
 // on click ... delete the default "value" in the address box
@@ -39,12 +39,48 @@ function messagebox(text){
     // add eventlistener to button
 
     box = document.getElementsByClassName("msgbox")[0];
-    box.innerHTML = text+`<br><center><button class="ok">OK</button></center>`;
+    box.innerHTML = text+`<br><center><button class="close">OK</button></center>`;
     box.style.display = "block";
-    okbutton = document.querySelector("button.ok");
+    okbutton = document.querySelector("button.close");
     okbutton.addEventListener('click', function(){ box.style.display = "none" }  );
 }
 
+function bookingbox(text){
+    // add text along with Back and Cancel button
+    // display message box
+    // query for the ok button
+    // add eventlistener to button
+
+    let box = document.getElementsByClassName("msgbox")[0];
+    box.innerHTML = text+`<br><div class="rowincolumn"> <button class="close">Back</button> <button id="cancel_booking">Cancel</button> </div>`;
+    box.style.display = "block";
+    let backbutton = document.querySelector("button.close");
+    backbutton.addEventListener('click', function(){ box.style.display = "none" }  );
+    let cancelbutton = document.querySelector("#cancel_booking");
+
+    cancelbutton.addEventListener('click', 
+    function(){ // open other window
+        let text2 = `<h3>Are you sure?</h3><p>There will be a fee if you cancel.</p>`;
+        bookingbox2(text2);  
+    }
+    );
+    
+};
+function bookingbox2(text){
+    let box = document.getElementsByClassName("msgbox2")[0];
+    box.innerHTML = text+`<br><div class="rowincolumn"> <button class="close2">Back</button> <button id="cancel_booking2">Cancel</button> </div>`;
+    box.style.display = "block";
+    let backbutton = document.querySelector("button.close2");
+    backbutton.addEventListener('click', function(){ box.style.display = "none" }  );
+    let cancelbutton = document.querySelector("#cancel_booking2");
+    //cancelbutton.addEventListener('click', function(){ box.style.display = "none" }  );
+};
+
+
+function bookingtext(address, date, tstart, tfinal){
+    let text = `stuff`;
+
+}
 
 
 //======= Code that needs Google Maps API ===========
@@ -149,9 +185,10 @@ function geocodeAddress(geocoder, resultsMap) { // convert the address into long
             else 
             {
                 //alert('Geocode was not successful for the following reason: ' + status);
-                alert('I could not process this address. Reason:' + status); // Make this into a message box instead!
+                //alert('I could not process this address. Reason:' + status); // Make this into a message box instead!
                 message = `<h3>Problem with Address</h3>`+
                 `<p>I could not process this address.<br>Reason: `+status+`</p>`
+                messagebox(message);
 
             }
         }
@@ -219,10 +256,22 @@ function formFilled(pos){
         markers[i].addListener(
             'click', function(){ 
                 infowindows[this.tagger].open( map, this ) // the FOR loop is not active here so the "i" counter isn't available.
+                bookbuttons = document.getElementsByClassName("book");
+                bookbutton = bookbuttons[bookbuttons.length-1];
+                bookbutton.addEventListener( 'click', function(){ let textstuff = `<p>You booked it!</p><p>However, you can cancel this reservation.</p>`; bookingbox(textstuff, "msgbox") });
+
             }
         );
+    } // end of FOR loop
 
+    /*
+    let bookbuttons = document.getElementsByClassName("book");
+    let l_end = bookbuttons.length;
+    for (i=0 ; i=l_end ; i++)
+    {
+        bookbuttons[i].addEventListener( 'click', function(){ let textstuff = `stuff`; bookingbox(textstuff, "msgbox") });
     }
+    */
 };
 
 

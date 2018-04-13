@@ -32,9 +32,9 @@ button{
 }
 
 div.side_menu{
-background:rgba(175,173,173, 0.85); /* #AFADAD;*/
+background:rgba(175,173,173, 0.80); /* #AFADAD;*/
 /*opacity: 0.1;*/
-filter: alpha(opacity=85); /* IE8 and lower */
+filter: alpha(opacity=80); /* IE8 and lower */
 position: absolute;
 left: 0;
 z-index: 5;
@@ -56,7 +56,7 @@ padding: 10px;
 margin-top: 10px;
 border: 3px solid black;
 width: 440px;
-height: 80px;
+/*height: 80px;*/
 display: flex;
 flex-direction: column;
 justify-content: space-between;
@@ -66,23 +66,33 @@ width: 100%;
 display: flex;
 flex-direction: row;
 justify-content: space-between;
+margin-top: 5px;
+margin-bottom: 20px;
 }
 div.address{
 background-color: white;
-margin:5px;
+margin: 5px;
 border: 1px solid black;
 border-radius: 10px;
-width: 80%;
+width: 85%;
 height: 20px;
 display: flex;
 flex-direction: row;
 }
-button.finish{
+#lens{
+  vertical-align: middle;
+  opacity: 0.5;
+  filter: alpha(opacity=50);
+}
+#address{
+  font-size: 11px;
+}
+button.form{
 background-color: white;
-margin: 5px;
+margin-right: 10px;
 border: 1px solid black;
 width: 40px;
-height: 40px;
+height: 30px;
 padding: 2px;
 font-size: 17px;
 cursor: pointer;
@@ -91,13 +101,8 @@ div.datetime{
 width:100%;
 }
 
-#lens{
-  vertical-align: middle;
-  opacity: 0.5;
-  filter: alpha(opacity=50);
-}
 
-div.msgbox{
+div.msgbox, div.msgbox2{
   display: none;
   position: absolute;
   left: 40%;
@@ -113,9 +118,11 @@ div.msgbox{
   font-size: 20px;
   text-align: center;
 }
-div.msgbox > button.ok{
+button.close, button.close2, #cancel_booking, #cancel_booking2{
   background-color: white;
   padding: 10px;
+  border: 1px solid black;
+  cursor: pointer;
   /*margin-left: 40%;*/
 }
 div.msgbox > .rowincolumn{
@@ -139,6 +146,10 @@ button.book{
   text-decoration: none;
   cursor: pointer;
 }
+
+
+
+
 
 a.main {
 color: blue ;

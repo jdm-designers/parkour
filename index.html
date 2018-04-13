@@ -27,11 +27,10 @@
 
   <div class="rowincolumn">
     <div class="address">
-    <div style="width:10%; padding-left:3px;">
-      <img id="lens" height="70%" src="https://jdm-designers.github.io/parkour/images/favicon.ico" /></div>
-      <input type="text" name="address" id="address" value="Where do you want to park near?" maxlength="32" style="border:none; width:85%;">
+      <div style="width:7%; padding-left:3px;"><img id="lens" height="70%" src="https://jdm-designers.github.io/parkour/images/favicon.ico" /></div>
+      <input type="text" name="address" id="address" value='Where do you want to park near? (e.g., "tufts", "60 Garden Street")' maxlength="56" style="border:none; width:90%;"> 
     </div>
-    <button class="finish">
+    <button class="form">
     Go
     </button>
   </div>
@@ -42,10 +41,11 @@
 </div>
 
 <div class="msgbox"></div>
+<div class="msgbox2"></div>
 
 <div id="map"></div>
-<script type="text/javascript" src="https://jdm-designers.github.io/parkour/javascripts/Gmaps.js"></script>
-<!--<script type="text/javascript" src="./javascripts/Gmaps.js"></script>-->
+<script type="text/javascript" src="https://jdm-designers.github.io/parkour/javascripts/myGmaps.js"></script>
+<!--<script type="text/javascript" src="./javascripts/myGmaps.js"></script>-->
 <script async defer
 src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDGiasNIOwfBsyH38QwjgZx1kI-i0S59sU&callback=initMap">
 </script>
