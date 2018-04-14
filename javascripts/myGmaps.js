@@ -45,36 +45,51 @@ function messagebox(text){
     okbutton.addEventListener('click', function(){ box.style.display = "none" }  );
 }
 
-function bookingbox(text){
-    // add text along with Back and Cancel button
-    // display message box
-    // query for the ok button
-    // add eventlistener to button
 
-    let box = document.getElementsByClassName("msgbox")[0];
-    box.innerHTML = text+`<br><div class="rowincolumn"> <button class="close">Back</button> <button id="cancel_booking">Cancel</button> </div>`;
-    box.style.display = "block";
-    let backbutton = document.querySelector("button.close");
-    backbutton.addEventListener('click', function(){ box.style.display = "none" }  );
-    let cancelbutton = document.querySelector("#cancel_booking");
+function bookingbox(text, ID){
+    function thebox(text, ID){               
+        let bodytag = document.querySelector("body");
+        let box = document.createElement("div");
+        box.id = "box_"+ID ; 
+        box.className = "msgbox" ; 
+        bodytag.appendChild( box );
 
-    cancelbutton.addEventListener('click', 
-    function(){ // open other window
-        let text2 = `<h3>Are you sure?</h3><p>There will be a fee if you cancel.</p>`;
-        bookingbox2(text2);  
+        box.innerHTML = text+`<br><div class="rowincolumn"> <button class="choice" id="back_`+ID+`">Back</button> <button class="choice" id="cancel_`+ID+`">Cancel</button> </div>`;
+        box.style.display = "block";
+
+        let backbutton = document.querySelector("#back_"+ID);
+        backbutton.addEventListener(
+            'click', function(){ 
+                box.style.display = "none";
+                bodytag.removeChild( box ); 
+            }  );
+        let cancelbutton = document.querySelector("#cancel_"+ID);
+
+        return cancelbutton
     }
-    );
+
+    if (ID == 1)
+    {
+        let boxcheck = document.getElementById("box_"+ID);
+        if (boxcheck == null)
+        {
+            let cancelbutton = thebox(text, ID);
+            cancelbutton.addEventListener(
+                'click', function(){ // open other window
+                let text2 = `<h3>Are you sure want to cancel?</h3><p>If you cancel, you'll be charged a $1.00 fee.</p>`;
+                let cb2 = thebox(text2, 2); 
+                // do nothing with the button for now.
+                }
+            );
+        }
+    }
+    else 
+    {
+        // do nothing as of now.
+        // go to next page, I think.
+    }
     
-};
-function bookingbox2(text){
-    let box = document.getElementsByClassName("msgbox2")[0];
-    box.innerHTML = text+`<br><div class="rowincolumn"> <button class="close2">Back</button> <button id="cancel_booking2">Cancel</button> </div>`;
-    box.style.display = "block";
-    let backbutton = document.querySelector("button.close2");
-    backbutton.addEventListener('click', function(){ box.style.display = "none" }  );
-    let cancelbutton = document.querySelector("#cancel_booking2");
-    //cancelbutton.addEventListener('click', function(){ box.style.display = "none" }  );
-};
+}
 
 
 function bookingtext(address, date, tstart, tfinal){
@@ -256,9 +271,10 @@ function formFilled(pos){
         markers[i].addListener(
             'click', function(){ 
                 infowindows[this.tagger].open( map, this ) // the FOR loop is not active here so the "i" counter isn't available.
+
                 bookbuttons = document.getElementsByClassName("book");
                 bookbutton = bookbuttons[bookbuttons.length-1];
-                bookbutton.addEventListener( 'click', function(){ let textstuff = `<p>You booked it!</p><p>However, you can cancel this reservation.</p>`; bookingbox(textstuff, "msgbox") });
+                bookbutton.addEventListener( 'click', function(){ let textstuff = `<p>You're all set!</p><p>However, you can cancel this reservation.</p>`; bookingbox(textstuff, 1) });
 
             }
         );

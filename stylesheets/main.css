@@ -102,7 +102,7 @@ width:100%;
 }
 
 
-div.msgbox, div.msgbox2{
+div.msgbox{
   display: none;
   position: absolute;
   left: 40%;
@@ -118,7 +118,7 @@ div.msgbox, div.msgbox2{
   font-size: 20px;
   text-align: center;
 }
-button.close, button.close2, #cancel_booking, #cancel_booking2{
+button.choice, button.close{
   background-color: white;
   padding: 10px;
   border: 1px solid black;
@@ -136,6 +136,7 @@ div.iwindow{
 }
 p.iwindow{
   font-size: 16px;
+  /* line-height: 10px; consider this! */
 }
 button.book{
   background-color: rgb(45, 179, 231);
