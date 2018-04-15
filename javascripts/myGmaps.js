@@ -33,6 +33,7 @@ datechoose.min = today;
 
  
 function messagebox(text){
+    // check if there's already a message box. If so, do nothing.
     // add text and ok button
     // display message box
     // query for the ok button
@@ -63,27 +64,33 @@ function messagebox(text){
 
 
 function bookingbox(text, ID){
-    function thebox(text, ID){               
-        let bodytag = document.querySelector("body");
-        let box_node = document.createElement("div");
-        box_node.id = "box_"+ID ; 
-        box_node.className = "msgbox" ; 
-        bodytag.appendChild( box_node );
+    function thebox(text, ID){ 
+        let boxcheck = document.getElementById("box_"+ID);
+        if (boxcheck == null)
+        {              
+            let bodytag = document.querySelector("body");
+            let box_node = document.createElement("div");
+            box_node.id = "box_"+ID ; 
+            box_node.className = "msgbox" ; 
+            box_node.setAttribute('z-index', 5+ID);
+            bodytag.appendChild( box_node );
+            console.log( box_node );
 
-        let box = document.getElementById("box_"+ID);
+            let box = document.getElementById("box_"+ID);
 
-        box.innerHTML = text+`<br><div class="rowincolumn"> <button class="choice" id="back_`+ID+`">Back</button> <button class="choice" id="cancel_`+ID+`">Cancel</button> </div>`;
-        box.style.display = "block";
+            box.innerHTML = text+`<br><div class="rowincolumn"> <button class="choice" id="back_`+ID+`">Back</button> <button class="choice" id="cancel_`+ID+`">Cancel</button> </div>`;
+            box.style.display = "block";
 
-        let backbutton = document.querySelector("#back_"+ID);
-        backbutton.addEventListener(
-            'click', function(){ 
-                box.style.display = "none";
-                bodytag.removeChild( box ); 
-            }  );
-        let cancelbutton = document.querySelector("#cancel_"+ID);
+            let backbutton = document.querySelector("#back_"+ID);
+            backbutton.addEventListener(
+                'click', function(){ 
+                    box.style.display = "none";
+                    bodytag.removeChild( box ); 
+                }  );
+            let cancelbutton = document.querySelector("#cancel_"+ID);
 
-        return cancelbutton
+            return cancelbutton
+        }
     }
 
     if (ID == 1)
@@ -119,12 +126,17 @@ function bookingtext(address, date, tstart, tfinal){
 //======= Code that needs Google Maps API ===========
 
 
-function addMarker(location, tag){ // This adds and displays a marker.
+
+function addMarker(location, tag, parkaddress, parkdate, parkstart, parkend){ // This adds and displays a marker.
     let marker = new google.maps.Marker( 
         {
             position: location,
             map: map,
-            tagger: tag
+            tagger: tag,
+            address: parkaddress,
+            date: parkdate,
+            time_start: parkstart,
+            time_end: parkend,
         }
     );
     return marker
@@ -192,6 +204,7 @@ function initMap() { // get or pick location to center on Map
             else
             {   
                 let boxcheck = document.getElementsByClassName("msgbox");
+                console.log(boxcheck);
                 if (boxcheck.length == 0)
                 {
                     geocodeAddress(geocoder, map);
@@ -273,7 +286,8 @@ function formFilled(pos){
     let i_end = markers.length + Nphonyspots;
     for (i = i_begin ; i < i_end ; i++)
     { 
-        var newmarker = addMarker(Pspots[i], i) ;
+        let parkaddress = (i-i_begin+1)+" Ugly Ducklings Street"
+        var newmarker = addMarker(Pspots[i], i, parkaddress, human_date, F_parkstart, F_parkend) ;
 
         var mycontent = `<div class="iwindow">`+
         `<h1>Name: Driveway ${i+1}</h2>`+
@@ -295,11 +309,15 @@ function formFilled(pos){
 
         markers[i].addListener(
             'click', function(){ 
-                infowindows[this.tagger].open( map, this ) // the FOR loop is not active here so the "i" counter isn't available.
+                infowindows[this.tagger].open( map, this ) // "this" refers to the marker object // the FOR loop is not active here so the "i" counter isn't available.
 
+                var Paddress = this.address;
+                var Pdate = this.date;
+                var Pstart = this.time_start;
+                var Pend = this.time_end;
                 bookbuttons = document.getElementsByClassName("book");
                 bookbutton = bookbuttons[bookbuttons.length-1];
-                bookbutton.addEventListener( 'click', function(){ let textstuff = `<h3>You're all set!</h3><p>However, you can cancel this reservation.</p>`; bookingbox(textstuff, 1) });
+                bookbutton.addEventListener( 'click', function(){ let textstuff = `<h3>You're all set!</h3><p>You've booked a parking spot at ${Paddress} on ${Pdate} from ${Pstart} to ${Pend}.</p><p>However, you can cancel this reservation.</p>`; bookingbox(textstuff, 1) });
 
             }
         );
