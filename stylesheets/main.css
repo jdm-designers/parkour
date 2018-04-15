@@ -1,194 +1,195 @@
 
 body, html{
+height: 100%;
+margin: 0;
+padding:0;
+}
+
+body {
+color: black;
+font-family: TimesNewRoman,Times New Roman,Times,Baskerville,Georgia,serif; 
+font-size: 14px;
+background-color: white;
+}
+
+/*
+div.map{
+background: url("https://jdm-designers.github.io/parkour/images/bigmap.png"); 
+background-repeat: no-repeat ;
+height: 100%;
+background-size: cover;
+background-position: center;
+width: 100%;
+display: flex;
+flex-direction: row;
+}
+*/
+#map {
   height: 100%;
-  margin: 0;
-  padding:0;
-  }
-  
-  body {
-  color: black;
-  font-family: TimesNewRoman,Times New Roman,Times,Baskerville,Georgia,serif; 
-  font-size: 14px;
-  background-color: white;
-  }
-  
-  /*
-  div.map{
-  background: url("https://jdm-designers.github.io/parkour/images/bigmap.png"); 
-  background-repeat: no-repeat ;
-  height: 100%;
-  background-size: cover;
-  background-position: center;
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  }
-  */
-  #map {
-    height: 100%;
-  }
-  button{
-    text-align: center;
-  }
-  
-  div.side_menu{
-  background:rgba(175,173,173, 0.80); /* #AFADAD;*/
-  /*opacity: 0.1;*/
-  filter: alpha(opacity=80); /* IE8 and lower */
-  position: absolute;
-  left: 0;
-  z-index: 5;
-  padding: 20px;
-  height: 100%;
-  width: 150px;
-  border: 3px solid black;
-  }
-  div.side_menu > .vspace{
-    margin-bottom: 20px;
-    }
-  
-  div.big_box{
-  position: absolute;
-  right: 60px;
-  z-index: 5;
-  background-color: #AFADAD;
-  padding: 10px;
-  margin-top: 10px;
-  border: 3px solid black;
-  width: 440px;
-  /*height: 80px;*/
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  }
-  .rowincolumn{
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  margin-top: 5px;
+}
+button{
+  text-align: center;
+}
+
+div.side_menu{
+background:rgba(175,173,173, 0.80); /* #AFADAD;*/
+/*opacity: 0.1;*/
+filter: alpha(opacity=80); /* IE8 and lower */
+position: absolute;
+left: 0;
+z-index: 5;
+padding: 20px;
+height: 100%;
+width: 150px;
+border: 3px solid black;
+}
+div.side_menu > .vspace{
   margin-bottom: 20px;
   }
-  div.address{
+
+div.big_box{
+position: absolute;
+right: 60px;
+z-index: 5;
+background-color: #AFADAD;
+padding: 10px;
+margin-top: 10px;
+border: 3px solid black;
+width: 440px;
+/*height: 80px;*/
+display: flex;
+flex-direction: column;
+justify-content: space-between;
+}
+.rowincolumn{
+width: 100%;
+display: flex;
+flex-direction: row;
+justify-content: space-between;
+margin-top: 5px;
+margin-bottom: 20px;
+}
+div.address{
+background-color: white;
+margin: 5px;
+border: 1px solid black;
+border-radius: 10px;
+width: 85%;
+height: 20px;
+display: flex;
+flex-direction: row;
+}
+#lens{
+  vertical-align: middle;
+  opacity: 0.5;
+  filter: alpha(opacity=50);
+}
+#address{
+  font-size: 11px;
+}
+button.form{
+background-color: white;
+margin-right: 10px;
+border: 1px solid black;
+width: 40px;
+height: 30px;
+padding: 2px;
+font-size: 17px;
+cursor: pointer;
+}
+div.datetime{
+width:100%;
+}
+
+
+div.msgbox{
+  display: none;
+  position: absolute;
+  left: 40%;
+  top: 40%;
+  /*height: 250px;
+  width: 250px;*/
+  max-width: 350px;
+  background-color: rgb(45, 179, 231);
+  color: white;
+  z-index: 5;
+  padding: 10px;
+  border: 2px solid black;
+  font-size: 20px;
+  text-align: center;
+}
+button.choice, button.close{
   background-color: white;
-  margin: 5px;
+  padding: 10px;
   border: 1px solid black;
-  border-radius: 10px;
-  width: 85%;
-  height: 20px;
+  cursor: pointer;
+  /*margin-left: 40%;*/
+}
+div.msgbox > .rowincolumn{
   display: flex;
   flex-direction: row;
-  }
-  #lens{
-    vertical-align: middle;
-    opacity: 0.5;
-    filter: alpha(opacity=50);
-  }
-  #address{
-    font-size: 11px;
-  }
-  button.form{
-  background-color: white;
-  margin-right: 10px;
+  justify-content: space-around ;
+}
+
+div.iwindow{
+  display: block;
+}
+p.iwindow{
+  font-size: 16px;
+  /* line-height: 10px; consider this! */
+}
+button.book{
+  background-color: rgb(45, 179, 231);
+  color: white;
+  font-size: 18px;
+  padding: 7px;
   border: 1px solid black;
-  width: 40px;
-  height: 30px;
-  padding: 2px;
-  font-size: 17px;
-  cursor: pointer;
-  }
-  div.datetime{
-  width:100%;
-  }
-  
-  
-  div.msgbox, div.msgbox2{
-    display: none;
-    position: absolute;
-    left: 40%;
-    top: 40%;
-    /*height: 250px;
-    width: 250px;*/
-    max-width: 350px;
-    background-color: rgb(45, 179, 231);
-    color: white;
-    z-index: 5;
-    padding: 10px;
-    border: 2px solid black;
-    font-size: 20px;
-    text-align: center;
-  }
-  button.close, button.close2, #cancel_booking, #cancel_booking2{
-    background-color: white;
-    padding: 10px;
-    border: 1px solid black;
-    cursor: pointer;
-    /*margin-left: 40%;*/
-  }
-  div.msgbox > .rowincolumn{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around ;
-  }
-  
-  div.iwindow{
-    display: block;
-  }
-  p.iwindow{
-    font-size: 16px;
-  }
-  button.book{
-    background-color: rgb(45, 179, 231);
-    color: white;
-    font-size: 18px;
-    padding: 7px;
-    border: 1px solid black;
-    text-decoration: none;
-    cursor: pointer;
-  }
-  
-  
-  
-  
-  
-  a.main {
-  color: blue ;
-  }
-  a.mainhead {
-    color: black;
-  }
-  
-  a.main:hover, a.mainhead:hover {
-  text-decoration: underline ;
-  }
-  
-  h1 {
-    text-align: center;
-  }
-  /*
-  h3 {
-    text-align: center;
-  }
-  */
-  
-  h2.content{
-    color: black; 
-    text-align: left; 
-    text-decoration: underline;
-  }
-  
-  a.menu {
-    color: white;
-  font-size: 22px;
   text-decoration: none;
-  }
-  a.menu:hover{
+  cursor: pointer;
+}
+
+
+
+
+
+a.main {
+color: blue ;
+}
+a.mainhead {
+  color: black;
+}
+
+a.main:hover, a.mainhead:hover {
+text-decoration: underline ;
+}
+
+h1 {
+  text-align: center;
+}
+/*
+h3 {
+  text-align: center;
+}
+*/
+
+h2.content{
+  color: black; 
+  text-align: left; 
   text-decoration: underline;
-  }
-  
-  /* All Mobile Sizes (devices and browser) */
-  @media only screen and (max-width: 767px) {
-    body {
-      background-color: white;
-    }
-  }
+}
+
+a.menu {
+  color: white;
+font-size: 22px;
+text-decoration: none;
+}
+a.menu:hover{
+text-decoration: underline;
+}
+
+/* All Mobile Sizes (devices and browser) */
+@media only screen and (max-width: 767px) {
+  body {
+    background-color: white;
+	}
+}
