@@ -16,6 +16,7 @@ var Pspots = [];
 var Nphonyspots = 10;
 var infowindows = [];
 let goButton = document.querySelector(".form");
+let driverprofile = document.querySelector("#driverprofile");
 
 
 // on click ... delete the default "value" in the address box
@@ -74,7 +75,6 @@ function bookingbox(text, ID){
             box_node.className = "msgbox" ; 
             box_node.setAttribute('z-index', 5+ID);
             bodytag.appendChild( box_node );
-            console.log( box_node );
 
             let box = document.getElementById("box_"+ID);
 
@@ -117,10 +117,24 @@ function bookingbox(text, ID){
 }
 
 
-function bookingtext(address, date, tstart, tfinal){
-    let text = `stuff`;
+// On click, open the driver profile page
+driverprofile.addEventListener(
+    'click', function(){
+        let wrapper = document.getElementsByClassName("wrap")[0];
+        let profilepage = document.createElement("div");
+        profilepage.className = "profile";
+        let topdiv = document.createElement("div");
+        topdiv.innerHTML = "<h1>John Harvard</h1>";
+        topdiv.style.borderBottom = "2px solid black"
+        let bottomdiv = document.createElement("div");
+        bottomdiv.innerHTML = "<h3>information from local storage</h3>";
+        
+        profilepage.appendChild( topdiv );
+        profilepage.appendChild( bottomdiv );
+        wrapper.appendChild( profilepage );
 
-}
+
+    });
 
 
 //======= Code that needs Google Maps API ===========
@@ -204,7 +218,6 @@ function initMap() { // get or pick location to center on Map
             else
             {   
                 let boxcheck = document.getElementsByClassName("msgbox");
-                console.log(boxcheck);
                 if (boxcheck.length == 0)
                 {
                     geocodeAddress(geocoder, map);
@@ -322,15 +335,6 @@ function formFilled(pos){
             }
         );
     } // end of FOR loop
-
-    /*
-    let bookbuttons = document.getElementsByClassName("book");
-    let l_end = bookbuttons.length;
-    for (i=0 ; i=l_end ; i++)
-    {
-        bookbuttons[i].addEventListener( 'click', function(){ let textstuff = `stuff`; bookingbox(textstuff, "msgbox") });
-    }
-    */
 };
 
 
