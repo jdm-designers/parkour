@@ -121,6 +121,7 @@ function bookingbox(text, ID){
 driverprofile.addEventListener(
     'click', function(){
         let wrapper = document.getElementsByClassName("wrap")[0];
+        wrapper.style.width = "100%";
         let profilepage = document.createElement("div");
         profilepage.className = "profile";
         let topdiv = document.createElement("div");
