@@ -51,12 +51,12 @@ function messagebox(text){
         let box = document.getElementsByClassName("msgbox")[0];
 
         box.innerHTML = text+`<br><center><button class="close">OK</button></center>`;
-        box.style.display = "block";
+        //box.style.display = "block";
 
         okbutton = document.querySelector("button.close");
         okbutton.addEventListener(
             'click', function(){ 
-                box.style.display = "none" ;
+                //box.style.display = "none" ;
                 bodytag.removeChild( box );
             }  
         );
@@ -73,18 +73,18 @@ function bookingbox(text, ID){
             let box_node = document.createElement("div");
             box_node.id = "box_"+ID ; 
             box_node.className = "msgbox" ; 
-            box_node.setAttribute('z-index', 5+ID);
+            box_node.setAttribute('z-index', 4+ID);
             bodytag.appendChild( box_node );
 
             let box = document.getElementById("box_"+ID);
 
             box.innerHTML = text+`<br><div class="rowincolumn"> <button class="choice" id="back_`+ID+`">Back</button> <button class="choice" id="cancel_`+ID+`">Cancel</button> </div>`;
-            box.style.display = "block";
+            //box.style.display = "block";
 
             let backbutton = document.querySelector("#back_"+ID);
             backbutton.addEventListener(
                 'click', function(){ 
-                    box.style.display = "none";
+                    //box.style.display = "none";
                     bodytag.removeChild( box ); 
                 }  );
             let cancelbutton = document.querySelector("#cancel_"+ID);
@@ -98,20 +98,33 @@ function bookingbox(text, ID){
         let boxcheck = document.getElementById("box_"+ID);
         if (boxcheck == null)
         {
-            let cancelbutton = thebox(text, ID);
-            cancelbutton.addEventListener(
+            let cancelbutton1 = thebox(text, ID);
+
+            cancelbutton1.addEventListener(
                 'click', function(){ // open other window
                 let text2 = `<h3>Are you sure want to cancel?</h3><p>If you cancel, you'll be charged a $1.00 fee.</p>`;
-                let cb2 = thebox(text2, 2); 
-                // do nothing with the button for now.
+                let cancelbutton2 = thebox(text2, 2); 
+                
+                cancelbutton2.addEventListener( // show one message box but close all other boxes.
+                    'click', function(){
+                        let bodytag = document.querySelector("body");
+                        let box1 = document.getElementById("box_"+1);
+                        let box2 = document.getElementById("box_"+2);
+                        bodytag.removeChild( box1 );
+                        bodytag.removeChild( box2 );
+
+                        textcancelled = `<p>You have cancelled this reservation.  A fee has been charged to your account.</p>`
+                        messagebox(textcancelled);
+                    }
+                );
+
                 }
             );
         }
     }
     else 
     {
-        // do nothing as of now.
-        // go to next page, I think.
+        // This function should only be called with ID==1.
     }
     
 }
@@ -120,20 +133,32 @@ function bookingbox(text, ID){
 // On click, open the driver profile page
 driverprofile.addEventListener(
     'click', function(){
-        let wrapper = document.getElementsByClassName("wrap")[0];
+        var wrapper = document.getElementsByClassName("wrap")[0];
         wrapper.style.width = "100%";
-        let profilepage = document.createElement("div");
+
+        var profilepage = document.createElement("div");
         profilepage.className = "profile";
-        let topdiv = document.createElement("div");
-        topdiv.innerHTML = "<h1>John Harvard</h1>";
-        topdiv.style.borderBottom = "2px solid black"
-        let bottomdiv = document.createElement("div");
-        bottomdiv.innerHTML = "<h3>information from local storage</h3>";
-        
-        profilepage.appendChild( topdiv );
-        profilepage.appendChild( bottomdiv );
+
+        let insideprofile = `<div class="profile_top"> <h1 class="profile_top">Harry Potter</h1> </div>`+
+        `<div>`+
+        `<h3>information from local storage</h3>`+
+        `<div class="reservations"> </div>`+
+        `<button class="close" id="back_7" style="margin-left: 20px;">Back</button>`+ // hard-coded the ID
+        `</div>`;
+        profilepage.innerHTML = insideprofile;
+
         wrapper.appendChild( profilepage );
 
+        let backbutton = document.getElementById("back_7");
+        backbutton.addEventListener(
+            'click', function(){
+                wrapper.removeChild( profilepage );
+                wrapper.style.width = "auto";
+            }
+        );
+        /*
+        topdiv.style.borderBottom = "2px solid black"
+        */
 
     });
 
@@ -331,7 +356,12 @@ function formFilled(pos){
                 var Pend = this.time_end;
                 bookbuttons = document.getElementsByClassName("book");
                 bookbutton = bookbuttons[bookbuttons.length-1];
-                bookbutton.addEventListener( 'click', function(){ let textstuff = `<h3>You're all set!</h3><p>You've booked a parking spot at ${Paddress} on ${Pdate} from ${Pstart} to ${Pend}.</p><p>However, you can cancel this reservation.</p>`; bookingbox(textstuff, 1) });
+                bookbutton.addEventListener( 
+                    'click', function(){ 
+                        let textstuff = `<h3>You're all set!</h3><p>You've booked a parking spot at ${Paddress} on ${Pdate} from ${Pstart} to ${Pend}.</p><p>However, you can cancel this reservation.</p>`; 
+                        bookingbox(textstuff, 1) 
+                    }
+                );
 
             }
         );

@@ -31,7 +31,7 @@ flex-direction: row;
 div.wrap{
   position: absolute;
   left: 0px;
-  z-index: 6;
+  z-index: 7; /* the booking "choice" boxes have index of 5 and 6 */
   display: flex;
   flex-direction: row;
   height: 100%;
@@ -112,7 +112,7 @@ width:100%;
 
 
 div.msgbox{
-  display: none;
+  display: block;
   position: absolute;
   left: 40%;
   top: 40%;
@@ -171,6 +171,24 @@ div.profile{
 div.profile > div{
   color: inherit;
   background-color: inherit;
+}
+div.profile_top{
+  border-bottom: 2px solid black;
+  flex-basis: 150px;
+}
+h1.profile_top{
+  font-family: Georgia;
+  text-align: left; 
+  text-indent: 30px; 
+  font-size: 45px;
+  position: relative;
+  top: 40px;
+}
+div.reservations{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  flex-wrap: wrap;
 }
 
 
