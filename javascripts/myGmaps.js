@@ -7,6 +7,8 @@ if ( typeof(Storage) !== "undefined") // see if local storage can be done.
 {
     let UP = {lat: 1, lng: 2};
     localStorage.setItem("userposition", JSON.stringify(UP) );
+    //localStorage.setItem("markers", JSON.stringify( [] ) );
+    localStorage.setItem("bookedspots", JSON.stringify( [] ) );
 }
 
 // Set up important variables
@@ -17,6 +19,7 @@ var Nphonyspots = 10;
 var infowindows = [];
 let goButton = document.querySelector(".form");
 let driverprofile = document.querySelector("#driverprofile");
+var profileopen = false;
 
 
 // on click ... delete the default "value" in the address box
@@ -110,11 +113,16 @@ function bookingbox(text, ID){
                         let bodytag = document.querySelector("body");
                         let box1 = document.getElementById("box_"+1);
                         let box2 = document.getElementById("box_"+2);
-                        bodytag.removeChild( box1 );
-                        bodytag.removeChild( box2 );
+                        if (box1 != null){ bodytag.removeChild( box1 ) }
+                        if (box2 != null){ bodytag.removeChild( box2 ) }
 
-                        textcancelled = `<p>You have cancelled this reservation.  A fee has been charged to your account.</p>`
+                        let textcancelled = `<p>You have cancelled this reservation.  A fee has been charged to your account.</p>`
                         messagebox(textcancelled);
+
+                        // delete this one from local storage.  They just clicked the BOOK button two clicks ago so this spot is the most recently booked spot.
+                        let bookedspots = JSON.parse( localStorage.bookedspots );
+                        bookedspots.splice( Number(bookedspots.length-1) ,1 ); // remove 1 element starting at index #ident
+                        localStorage.bookedspots = JSON.stringify( bookedspots ) ;
                     }
                 );
 
@@ -133,32 +141,55 @@ function bookingbox(text, ID){
 // On click, open the driver profile page
 driverprofile.addEventListener(
     'click', function(){
-        var wrapper = document.getElementsByClassName("wrap")[0];
-        wrapper.style.width = "100%";
+        if (profileopen == false)
+        {
+            profileopen = true;
 
-        var profilepage = document.createElement("div");
-        profilepage.className = "profile";
+            var wrapper = document.getElementsByClassName("wrap")[0];
+            wrapper.style.width = "100%";
 
-        let insideprofile = `<div class="profile_top"> <h1 class="profile_top">Harry Potter</h1> </div>`+
-        `<div>`+
-        `<h3>information from local storage</h3>`+
-        `<div class="reservations"> </div>`+
-        `<button class="close" id="back_7" style="margin-left: 20px;">Back</button>`+ // hard-coded the ID
-        `</div>`;
-        profilepage.innerHTML = insideprofile;
+            var profilepage = document.createElement("div");
+            profilepage.className = "profile";
 
-        wrapper.appendChild( profilepage );
+            let bookedspots = JSON.parse( localStorage.bookedspots );
 
-        let backbutton = document.getElementById("back_7");
-        backbutton.addEventListener(
-            'click', function(){
-                wrapper.removeChild( profilepage );
-                wrapper.style.width = "auto";
+            if (bookedspots.length == 0)
+            {
+                var bookedsections = "<h3> You haven't booked anything yet! </h3>";
             }
-        );
-        /*
-        topdiv.style.borderBottom = "2px solid black"
-        */
+            else
+            {
+                var bookedsections = ""; 
+                for (i=0 ; i < bookedspots.length ; i++)
+                {
+                    let bookedsection = `<div class="bookedsection"><p>Date:  ${bookedspots[i].date} <br>Owner:  ${bookedspots[i].owner} <br>Address:  ${bookedspots[i].address} <br>Time:   ${bookedspots[i].time_start} - ${bookedspots[i].time_end}  </p></div>`;
+                    bookedsections = bookedsections+" "+bookedsection ;
+                }
+                 
+            }
+            let backbutton_id = "back_profile";
+            let insideprofile = `<div class="profile_top"> <h1 class="profile_top">Harry Potter</h1> </div>`+
+            `<div class="profile_bottom">`+
+            `<h1>Upcoming Reservations</h1>`+
+            `<div class="reservations"> ${bookedsections} </div>`+
+            `<button class="close" id="${backbutton_id}">Back</button>`+ // hard-coded the ID
+            `</div>`;
+            profilepage.innerHTML = insideprofile;
+
+            wrapper.appendChild( profilepage );
+
+            let backbutton = document.getElementById(backbutton_id);
+            backbutton.addEventListener(
+                'click', function(){
+                    profileopen = false;
+                    wrapper.removeChild( profilepage );
+                    wrapper.style.width = "auto";
+                }
+            );
+            /*
+            topdiv.style.borderBottom = "2px solid black"
+            */
+        }
 
     });
 
@@ -167,18 +198,20 @@ driverprofile.addEventListener(
 
 
 
-function addMarker(location, tag, parkaddress, parkdate, parkstart, parkend){ // This adds and displays a marker.
+function addMarker(location, tag, name, parkaddress, parkdate, parkstart, parkend){ // This adds and displays a marker.
     let marker = new google.maps.Marker( 
         {
             position: location,
             map: map,
             tagger: tag,
+            owner: name,
             address: parkaddress,
             date: parkdate,
             time_start: parkstart,
-            time_end: parkend,
+            time_end: parkend
         }
     );
+        
     return marker
 };
 
@@ -325,16 +358,17 @@ function formFilled(pos){
     let i_end = markers.length + Nphonyspots;
     for (i = i_begin ; i < i_end ; i++)
     { 
-        let parkaddress = (i-i_begin+1)+" Ugly Ducklings Street"
-        var newmarker = addMarker(Pspots[i], i, parkaddress, human_date, F_parkstart, F_parkend) ;
+        let parkaddress = (i-i_begin+1)+" Ugly Ducklings Street" ;
+        let owner_name = "Driveway "+(i+1) ;
+        var newmarker = addMarker(Pspots[i], i, owner_name, parkaddress, human_date, F_parkstart, F_parkend) ;
 
         var mycontent = `<div class="iwindow">`+
-        `<h1>Name: Driveway ${i+1}</h2>`+
-        `<p class="iwindow">Street:  ${i-i_begin+1} Ugly Ducklings Street`+
-        `<br>Rate:  \$2/hour`+
-        `<br>Date:  `+human_date+  // Have this contain the same Date and Times the user already inserted.
-        `<br>Availability:  `+F_parkstart+` - `+F_parkend+
-        `<br>Host's Rating:  ${i-i_begin+1} out of 10`+
+        `<h1>Name: ${owner_name}</h2>`+
+        `<p class="iwindow">Street:   ${parkaddress}`+
+        `<br>Rate:   \$2/hour`+
+        `<br>Date:   `+human_date+  // Have this contain the same Date and Times the user already inserted.
+        `<br>Availability:   `+F_parkstart+` - `+F_parkend+
+        `<br>Host's Rating:   ${i-i_begin+1} out of 10`+
         `</p>`+
         `<div class="rowincolumn">  <p>Image of driveway</p> <button class="book">Book</button>  </div>`+
         `</div>`;
@@ -350,6 +384,7 @@ function formFilled(pos){
             'click', function(){ 
                 infowindows[this.tagger].open( map, this ) // "this" refers to the marker object // the FOR loop is not active here so the "i" counter isn't available.
 
+                var owner_name = this.owner;
                 var Paddress = this.address;
                 var Pdate = this.date;
                 var Pstart = this.time_start;
@@ -358,14 +393,30 @@ function formFilled(pos){
                 bookbutton = bookbuttons[bookbuttons.length-1];
                 bookbutton.addEventListener( 
                     'click', function(){ 
-                        let textstuff = `<h3>You're all set!</h3><p>You've booked a parking spot at ${Paddress} on ${Pdate} from ${Pstart} to ${Pend}.</p><p>However, you can cancel this reservation.</p>`; 
-                        bookingbox(textstuff, 1) 
+                        let textstuff = `<h3>You're all set!</h3><p>You've booked a parking spot at ${Paddress} on ${Pdate} from ${Pstart} to ${Pend}.</p><p>However, you can cancel this reservation.</p><p>This reservation is now in your profile.</p>`; 
+                        bookingbox(textstuff, 1);
+
+                        let bookedspots = JSON.parse( localStorage.bookedspots );
+                        let tagger = bookedspots.length + 1;
+                        bookedspots.push(
+                            {
+                                tag: tagger,
+                                owner: owner_name,
+                                address: Paddress,
+                                date: Pdate,
+                                time_start: Pstart,
+                                time_end: Pend
+                            }
+                        );
+                        localStorage.bookedspots = JSON.stringify( bookedspots );     
                     }
                 );
 
             }
         );
     } // end of FOR loop
+    // save markers to local storage so that the booking information can find it 
+    //localStorage.markers = JSON.stringify( markers );
 };
 
 

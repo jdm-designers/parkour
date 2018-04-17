@@ -184,12 +184,29 @@ h1.profile_top{
   position: relative;
   top: 40px;
 }
+div.profile_bottom{
+  padding-left: 30px;
+}
 div.reservations{
   display: flex;
   flex-direction: row;
   justify-content: space-around;
   flex-wrap: wrap;
 }
+div.bookedsection{
+  color: black;
+  background-color: white;
+  font-size: 18px;
+  min-height: 50px;
+  max-width: 400px;
+  border: 1px solid black;
+  line-height: 1.5;
+  padding: 0px 10px 0px 10px; /* bottom left top right ... I think */
+}
+#back_profile{
+  margin-top: 15px;
+}
+
 
 
 
