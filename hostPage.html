@@ -30,7 +30,7 @@ I'm a Host
 <div style="position: relative; left: 85px">Select a Date: </div>
 <br/>
 <form>
-<select style="position: relative; left: 85px" name="Date">
+<select style="position: relative; left: 85px" id="calendarDate" name="Date">
 	<option value="May 1">May 1</option>
 	<option value="May 2">May 2</option>
 	<option value="May 3">May 3</option>
@@ -86,7 +86,7 @@ I'm a Host
 </form>
 <script>
 if (typeof(Storage) !== "undefined") {
-	name = "Jack Smith"
+	name = "localStorage"
 	if (localStorage.getItem(name) !== null) {
 		console.log(JSON.parse(localStorage.getItem(name)));
 	}
@@ -102,6 +102,7 @@ if (typeof(Storage) !== "undefined") {
 	var sixthCheckbox = document.querySelector('#sixthCheckbox')
 	var fourthTextBox = document.querySelector('#fourthTextBox')
 	var seventhCheckbox = document.querySelector('#sixthCheckbox')
+	var calendarDate = document.querySelector('#calendarDate')
 	submitButton.onclick = function() {
 		var newSpot = {}
 		newSpot.firstTextBox = firstTextBox.value;
@@ -115,7 +116,8 @@ if (typeof(Storage) !== "undefined") {
 		newSpot.sixthCheckbox = sixthCheckbox.checked
 		newSpot.fourthTextBox = fourthTextBox.value
 		newSpot.seventhCheckbox = seventhCheckbox.checked
-		localStorage.setItem(firstTextBox.value, JSON.stringify(newSpot))
+		newSpot.calendarDate = calendarDate.value
+		localStorage.setItem("localStorage", JSON.stringify(newSpot))
 		alert("Your Spot Has Been Submitted");
 	};
 } 
