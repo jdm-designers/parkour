@@ -111,7 +111,7 @@ width:100%;
 }
 
 
-div.msgbox{
+div.popbox{
   display: block;
   position: absolute;
   left: 40%;
@@ -134,7 +134,7 @@ button.choice, button.close{
   cursor: pointer;
   /*margin-left: 40%;*/
 }
-div.msgbox > .rowincolumn{
+div.popbox > .rowincolumn{
   display: flex;
   flex-direction: row;
   justify-content: space-around ;
@@ -182,7 +182,8 @@ h1.profile_top{
   text-indent: 30px; 
   font-size: 45px;
   position: relative;
-  top: 40px;
+  top: 20%;
+  bottom: 5%;
 }
 div.profile_bottom{
   padding-left: 30px;
@@ -200,19 +201,12 @@ div.bookedsection{
   max-width: 400px;
   border: 2px solid black;
   line-height: 1.5;
-  padding: 0px 10px 0px 10px; /* bottom left top right ... I think */
+  padding: 7px 10px 7px 10px; /* top and then clockwise */
   margin: 15px;
 }
-div.x_close{
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  height: 15px;
-  margin-top: 10px;
-  margin-bottom: 0px;
-  z-index: 2;
-}
 #x_close{
+  float: right;
+  margin: 0px 0px 0px 0px;
   width: 15px;
   cursor: pointer;
 }
