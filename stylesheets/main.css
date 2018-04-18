@@ -190,7 +190,6 @@ div.profile_bottom{
 div.reservations{
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
   flex-wrap: wrap;
 }
 div.bookedsection{
@@ -202,6 +201,7 @@ div.bookedsection{
   border: 2px solid black;
   line-height: 1.5;
   padding: 0px 10px 0px 10px; /* bottom left top right ... I think */
+  margin: 15px;
 }
 div.x_close{
   display: flex;
@@ -210,13 +210,14 @@ div.x_close{
   height: 15px;
   margin-top: 10px;
   margin-bottom: 0px;
+  z-index: 2;
 }
 #x_close{
   width: 15px;
   cursor: pointer;
 }
 #back_profile{
-  margin-top: 15px;
+  margin-top: 20px; 
 }
 
 
@@ -227,25 +228,9 @@ button{
   font-size: 18px;
 }
 
-a.main {
-color: blue ;
-}
-a.mainhead {
-  color: black;
-}
-
-a.main:hover, a.mainhead:hover {
-text-decoration: underline ;
-}
-
 h1 {
   text-align: center;
 }
-/*
-h3 {
-  text-align: center;
-}
-*/
 
 h2.content{
   color: black; 

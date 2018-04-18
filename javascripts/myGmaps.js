@@ -4,22 +4,22 @@
 // TO DO: !'s 
 
 if ( typeof(Storage) !== "undefined") // see if local storage can be done.
-{
-    if (localStorage.userposition)
+{    
+    if (localStorage.bookedspots)
     {
         // don't set up any storage
     }
     else
     {
+        localStorage.setItem("bookedspots", [] );
         let UP = {lat: 1, lng: 2};
         localStorage.setItem("userposition", JSON.stringify(UP) );
-        //localStorage.setItem("markers", JSON.stringify( [] ) );
-        localStorage.setItem("bookedspots", [] );
     }
 }
 
 // Set up important variables
-var map; // This is for the google Maps related functions
+var map; 
+var zbase = 5;
 var markers = [];
 var Pspots = [];
 var Nphonyspots = 10;
@@ -83,7 +83,7 @@ function bookingbox(text, ID){
             let box_node = document.createElement("div");
             box_node.id = "box_"+ID ; 
             box_node.className = "msgbox" ; 
-            box_node.setAttribute('z-index', 4+ID);
+            box_node.setAttribute('z-index', zbase+ID-1);
             bodytag.appendChild( box_node );
 
             let box = document.getElementById("box_"+ID);
@@ -106,7 +106,7 @@ function bookingbox(text, ID){
     if (ID == 1)
     {
         let bookedspots = JSON.parse( localStorage.bookedspots );
-        var current_Nreservations =  bookedspots.length; 
+        var thisbookingtagger = bookedspots[bookedspots.length-1].tagger ; 
 
         let boxcheck = document.getElementById("box_"+ID);
         if (boxcheck == null)
@@ -131,11 +131,15 @@ function bookingbox(text, ID){
 
                         // delete this one from local storage.  They just clicked the BOOK button two clicks ago so this spot is the most recently booked spot.
                         let bookedspots = JSON.parse( localStorage.bookedspots );
-                        if (bookedspots.length == current_Nreservations)
+                        for (i=0 ; i< bookedspots.length ; i++)
                         {
-                            bookedspots.splice( Number(bookedspots.length-1) ,1 ); // remove 1 element starting at index #ident
-                            localStorage.bookedspots = JSON.stringify( bookedspots ) ;
-                        }
+                            let checktagger = bookedspots[i].tagger ; 
+                            if (checktagger == thisbookingtagger) // unfortunately the way I am doing tags now is not unique.
+                            {
+                                bookedspots.splice( i ,1 ); // remove 1 element starting at index #ident
+                                localStorage.bookedspots = JSON.stringify( bookedspots ) ;
+                            }
+                        }                        
                     }
                 );
 
@@ -175,7 +179,7 @@ function renderProfile(){
 
     if (bookedspots.length == 0)
     {
-        var bookedsections = "<h3> You haven't booked anything yet! </h3>";
+        var bookedsections = `<h3>You haven't booked anything yet!</h3> `;
     }
     else
     {
@@ -191,9 +195,9 @@ function renderProfile(){
             
     }
     let backbutton_id = "back_profile";
-    let insideprofile = `<div class="profile_top"> <h1 class="profile_top">Harry Potter</h1> </div>`+
+    let insideprofile = `<div class="profile_top"> <h1 class="profile_top">Hello, Nicki Minaj!</h1> </div>`+
     `<div class="profile_bottom">`+
-    `<h1 style="text-align: left">Upcoming Reservations</h1>`+
+    `<h1 style="text-align: left">Your Upcoming Reservations</h1>`+
     `<div class="reservations"> ${bookedsections} </div>`+
     `<button class="close" id="${backbutton_id}">Back</button>`+ // hard-coded the ID
     `</div>`;
@@ -222,10 +226,12 @@ driverprofile.addEventListener('click', renderProfile);
 function delete_reservation(ID){ // delete from local storage and re-render the profile page.
     let bookedspots = JSON.parse( localStorage.bookedspots );
     bookedspots.splice( ID-1 ,1 ); // remove 1 element starting at index #ident
+    /*
     for (i=0 ; i < bookedspots.length ; i++)
     {
         bookedspots[i].tag = i;
     }
+    */
     localStorage.bookedspots = JSON.stringify( bookedspots ) ;
     renderProfile();
 }
@@ -434,10 +440,10 @@ function formFilled(pos){
                         let textstuff = `<h3>You're all set!</h3><p>You've booked a parking spot at ${Paddress} on ${Pdate} from ${Pstart} to ${Pend}.</p><p>However, you can cancel this reservation.</p><p>This reservation is now in your profile.</p>`; 
 
                         let bookedspots = JSON.parse( localStorage.bookedspots );
-                        let tagger = bookedspots.length + 1;
+                        let tag = bookedspots.length + 1;
                         bookedspots.push(
                             {
-                                tag: tagger,
+                                tagger: tag,
                                 owner: owner_name,
                                 address: Paddress,
                                 date: Pdate,
