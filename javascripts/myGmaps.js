@@ -98,6 +98,9 @@ function bookingbox(text, ID){
 
     if (ID == 1)
     {
+        let bookedspots = JSON.parse( localStorage.bookedspots );
+        var current_Nreservations =  bookedspots.length; 
+
         let boxcheck = document.getElementById("box_"+ID);
         if (boxcheck == null)
         {
@@ -121,8 +124,11 @@ function bookingbox(text, ID){
 
                         // delete this one from local storage.  They just clicked the BOOK button two clicks ago so this spot is the most recently booked spot.
                         let bookedspots = JSON.parse( localStorage.bookedspots );
-                        bookedspots.splice( Number(bookedspots.length-1) ,1 ); // remove 1 element starting at index #ident
-                        localStorage.bookedspots = JSON.stringify( bookedspots ) ;
+                        if (bookedspots.length == current_Nreservations)
+                        {
+                            bookedspots.splice( Number(bookedspots.length-1) ,1 ); // remove 1 element starting at index #ident
+                            localStorage.bookedspots = JSON.stringify( bookedspots ) ;
+                        }
                     }
                 );
 
@@ -138,60 +144,85 @@ function bookingbox(text, ID){
 }
 
 
-// On click, open the driver profile page
-driverprofile.addEventListener(
-    'click', function(){
-        if (profileopen == false)
+function renderProfile(){
+
+    var wrapper = document.getElementsByClassName("wrap")[0];
+
+    if (profileopen == false)
+    {
+        profileopen = true;
+
+        wrapper.style.width = "100%";
+    }
+    else
+    {
+        // just re-render everything below.
+        old_profilepage = document.getElementsByClassName("profile")[0];
+        wrapper.removeChild( old_profilepage ); 
+    }
+
+    var profilepage = document.createElement("div");
+    profilepage.className = "profile";
+
+    let bookedspots = JSON.parse( localStorage.bookedspots );
+
+    if (bookedspots.length == 0)
+    {
+        var bookedsections = "<h3> You haven't booked anything yet! </h3>";
+    }
+    else
+    {
+        var bookedsections = ""; 
+        for (i=0 ; i < bookedspots.length ; i++)
         {
-            profileopen = true;
-
-            var wrapper = document.getElementsByClassName("wrap")[0];
-            wrapper.style.width = "100%";
-
-            var profilepage = document.createElement("div");
-            profilepage.className = "profile";
-
-            let bookedspots = JSON.parse( localStorage.bookedspots );
-
-            if (bookedspots.length == 0)
-            {
-                var bookedsections = "<h3> You haven't booked anything yet! </h3>";
-            }
-            else
-            {
-                var bookedsections = ""; 
-                for (i=0 ; i < bookedspots.length ; i++)
-                {
-                    let bookedsection = `<div class="bookedsection"><p>Date:  ${bookedspots[i].date} <br>Owner:  ${bookedspots[i].owner} <br>Address:  ${bookedspots[i].address} <br>Time:   ${bookedspots[i].time_start} - ${bookedspots[i].time_end}  </p></div>`;
-                    bookedsections = bookedsections+" "+bookedsection ;
-                }
-                 
-            }
-            let backbutton_id = "back_profile";
-            let insideprofile = `<div class="profile_top"> <h1 class="profile_top">Harry Potter</h1> </div>`+
-            `<div class="profile_bottom">`+
-            `<h1>Upcoming Reservations</h1>`+
-            `<div class="reservations"> ${bookedsections} </div>`+
-            `<button class="close" id="${backbutton_id}">Back</button>`+ // hard-coded the ID
+            let bookedsection = `<div class="bookedsection" id="reservation_${i+1}">`+
+            `<div class="x_close"><img onclick="delete_reservation(${i+1})" id="x_close" src="https://jdm-designers.github.io/parkour/images/close_grey.png" /></div>`+
+            `<p>Date:  ${bookedspots[i].date} <br>Owner:  ${bookedspots[i].owner} <br>Address:  ${bookedspots[i].address} <br>Time:   ${bookedspots[i].time_start} - ${bookedspots[i].time_end}</p>`+
             `</div>`;
-            profilepage.innerHTML = insideprofile;
-
-            wrapper.appendChild( profilepage );
-
-            let backbutton = document.getElementById(backbutton_id);
-            backbutton.addEventListener(
-                'click', function(){
-                    profileopen = false;
-                    wrapper.removeChild( profilepage );
-                    wrapper.style.width = "auto";
-                }
-            );
-            /*
-            topdiv.style.borderBottom = "2px solid black"
-            */
+            bookedsections = bookedsections+" "+bookedsection ;
         }
+            
+    }
+    let backbutton_id = "back_profile";
+    let insideprofile = `<div class="profile_top"> <h1 class="profile_top">Harry Potter</h1> </div>`+
+    `<div class="profile_bottom">`+
+    `<h1 style="text-align: left">Upcoming Reservations</h1>`+
+    `<div class="reservations"> ${bookedsections} </div>`+
+    `<button class="close" id="${backbutton_id}">Back</button>`+ // hard-coded the ID
+    `</div>`;
+    profilepage.innerHTML = insideprofile;
 
-    });
+    wrapper.appendChild( profilepage );
+
+    let backbutton = document.getElementById(backbutton_id);
+    backbutton.addEventListener(
+        'click', function(){
+            profileopen = false;
+            wrapper.removeChild( profilepage );
+            wrapper.style.width = "auto";
+        }
+    );
+    /*
+    topdiv.style.borderBottom = "2px solid black"
+    */
+}
+
+
+// On click, open the driver profile page
+driverprofile.addEventListener('click', renderProfile);
+
+
+function delete_reservation(ID){ // delete from local storage and re-render the profile page.
+    let bookedspots = JSON.parse( localStorage.bookedspots );
+    bookedspots.splice( ID-1 ,1 ); // remove 1 element starting at index #ident
+    for (i=0 ; i < bookedspots.length ; i++)
+    {
+        bookedspots[i].tag = i;
+    }
+    localStorage.bookedspots = JSON.stringify( bookedspots ) ;
+    renderProfile();
+}
+
 
 
 //======= Code that needs Google Maps API ===========
@@ -394,7 +425,6 @@ function formFilled(pos){
                 bookbutton.addEventListener( 
                     'click', function(){ 
                         let textstuff = `<h3>You're all set!</h3><p>You've booked a parking spot at ${Paddress} on ${Pdate} from ${Pstart} to ${Pend}.</p><p>However, you can cancel this reservation.</p><p>This reservation is now in your profile.</p>`; 
-                        bookingbox(textstuff, 1);
 
                         let bookedspots = JSON.parse( localStorage.bookedspots );
                         let tagger = bookedspots.length + 1;
@@ -409,6 +439,8 @@ function formFilled(pos){
                             }
                         );
                         localStorage.bookedspots = JSON.stringify( bookedspots );     
+
+                        bookingbox(textstuff, 1);
                     }
                 );
 

@@ -199,9 +199,21 @@ div.bookedsection{
   font-size: 18px;
   min-height: 50px;
   max-width: 400px;
-  border: 1px solid black;
+  border: 2px solid black;
   line-height: 1.5;
   padding: 0px 10px 0px 10px; /* bottom left top right ... I think */
+}
+div.x_close{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  height: 15px;
+  margin-top: 10px;
+  margin-bottom: 0px;
+}
+#x_close{
+  width: 15px;
+  cursor: pointer;
 }
 #back_profile{
   margin-top: 15px;
