@@ -14,7 +14,8 @@ if ( typeof(Storage) !== "undefined") // see if local storage can be done.
         let UP = {lat: 1, lng: 2};
         localStorage.setItem("userposition", JSON.stringify(UP) );
         //localStorage.setItem("markers", JSON.stringify( [] ) );
-        localStorage.setItem("bookedspots", JSON.stringify( [] ) );
+        let empty = [];
+        localStorage.setItem("bookedspots", JSON.stringify( empty ) );
     }
 }
 
@@ -277,7 +278,7 @@ function initMap() { // get or pick location to center on Map
     };
 
     function geo_error(){ // use phony location
-        console.log('something went wrong.');
+        console.log('something went wrong with getting position. So, using phony central location.');
 
         userlatitude = 42.3807695;
         userlongitude = -71.1244957;
