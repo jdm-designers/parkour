@@ -5,10 +5,17 @@
 
 if ( typeof(Storage) !== "undefined") // see if local storage can be done.
 {
-    let UP = {lat: 1, lng: 2};
-    localStorage.setItem("userposition", JSON.stringify(UP) );
-    //localStorage.setItem("markers", JSON.stringify( [] ) );
-    localStorage.setItem("bookedspots", JSON.stringify( [] ) );
+    if (localStorage.userposition)
+    {
+        // don't set up any storage
+    }
+    else
+    {
+        let UP = {lat: 1, lng: 2};
+        localStorage.setItem("userposition", JSON.stringify(UP) );
+        //localStorage.setItem("markers", JSON.stringify( [] ) );
+        localStorage.setItem("bookedspots", JSON.stringify( [] ) );
+    }
 }
 
 // Set up important variables
