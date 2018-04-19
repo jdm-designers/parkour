@@ -21,3 +21,9 @@ div.page_wrapper{
 	flex-wrap: wrap;
 }
 
+img.x_close{
+	float: right;
+	margin: 7px 7px 0px 0px;
+	width: 15px;
+	cursor: pointer;
+  }

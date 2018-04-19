@@ -9,6 +9,8 @@
 		<p style="margin-top: 10px;">Here you can see the parking spots that you have made available.</p>
 		<div id="mainDiv">
 			<div class="parkingSpace">
+				<img onclick="X_reservation(1)" class="x_close" id="x_1" src="https://jdm-designers.github.io/parkour/images/close_grey.png" />
+
 				Address: 83 Redding Way, Boston, MA
 				</br>
 				Date: May 1
@@ -18,6 +20,8 @@
 				Hourly Rate: 5
 			</div>
 			<div class="parkingSpace">
+				<img onclick="X_reservation(2)" class="x_close" id="x_2" src="https://jdm-designers.github.io/parkour/images/close_grey.png" />
+
 				Address: 25 Landing Rd, Boston, MA
 				</br>
 				Date: May 10
@@ -27,6 +31,8 @@
 				Hourly Rate: 6
 			</div>
 			<div class="parkingSpace">
+				<img onclick="X_reservation(3)" class="x_close" id="x_3" src="https://jdm-designers.github.io/parkour/images/close_grey.png" />
+
 				Address: 97 Beacon Dr, Boston, MA
 				</br>
 				Date: May 18
@@ -38,22 +44,29 @@
 		</div>
 	</div>
 	<script>
-		storedValue = JSON.parse(localStorage.getItem("localStorage"))
-		date = storedValue["calendarDate"]
-		address = storedValue["thirdTextBox"]
-		recurring = storedValue["sixthCheckbox"]
-		hourlyRate = storedValue["fourthTextBox"]
-		if (recurring == true) {
-			recurringText = "Yes";
+		
+
+		if (localStorage.localStorage) // if the "localStorage" object within the browser's local storage exists, then run the following code.
+		{
+			storedValue = JSON.parse(localStorage.getItem("localStorage"))
+			date = storedValue["calendarDate"]
+			address = storedValue["thirdTextBox"]
+			recurring = storedValue["sixthCheckbox"]
+			hourlyRate = storedValue["fourthTextBox"]
+			if (recurring == true) {
+				recurringText = "Yes";
+			}
+			else {
+				recurringText = "No";
+			}
+			let htmlBody = document.querySelector('#mainDiv');
+			let newDiv = document.createElement('div');
+			newDiv.innerHTML = `<img onclick="X_reservation(4)" class="x_close" id="x_4" src="https://jdm-designers.github.io/parkour/images/close_grey.png" />`+
+			"Address: " + address + "</br> Date: " + date + "</br> Recurring Weekly: " + recurringText + "</br> Hourly Rate: " + hourlyRate;
+			newDiv.setAttribute("class", "parkingSpace");
+			
+			htmlBody.appendChild(newDiv)
 		}
-		else {
-			recurringText = "No";
-		}
-		let htmlBody = document.querySelector('#mainDiv');
-		let newDiv = document.createElement('div');
-		newDiv.innerHTML = "Address: " + address + "</br> Date: " + date + "</br> Recurring Weekly: " + recurringText + "</br> Hourly Rate: " + hourlyRate;
-		newDiv.setAttribute("class", "parkingSpace");
-		htmlBody.appendChild(newDiv)
 	</script>
 </body>
 </html>
