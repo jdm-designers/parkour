@@ -5,7 +5,7 @@
 
 if ( typeof(Storage) !== "undefined") // see if local storage can be done.
 {    
-    if (localStorage.tagger)
+    if (localStorage.tagger) // what if some other student has this same localstorage name???
     {
         // don't set up any storage
         // my initializer google maps functions searches user's location everytime anyway.
