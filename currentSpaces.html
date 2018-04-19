@@ -11,7 +11,7 @@
 		<p style="margin-top: 10px;">Here you can see the parking spots that you have made available.</p>
 		<div id="mainDiv">
 			<div class="parkingSpace" id="x_1">
-				<img onclick="X_reservation(1)" class="x_close" id="x_1" src="https://jdm-designers.github.io/parkour/images/close_grey.png" />
+				<img onclick="X_post(1)" class="x_close" id="x_1" src="https://jdm-designers.github.io/parkour/images/close_grey.png" />
 
 				Address: 83 Redding Way, Boston, MA
 				</br>
@@ -22,7 +22,7 @@
 				Hourly Rate: 5
 			</div>
 			<div class="parkingSpace" id="x_2">
-				<img onclick="X_reservation(2)" class="x_close" src="https://jdm-designers.github.io/parkour/images/close_grey.png" />
+				<img onclick="X_post(2)" class="x_close" src="https://jdm-designers.github.io/parkour/images/close_grey.png" />
 
 				Address: 25 Landing Rd, Boston, MA
 				</br>
@@ -33,7 +33,7 @@
 				Hourly Rate: 6
 			</div>
 			<div class="parkingSpace" id="x_3">
-				<img onclick="X_reservation(3)" class="x_close" src="https://jdm-designers.github.io/parkour/images/close_grey.png" />
+				<img onclick="X_post(3)" class="x_close" src="https://jdm-designers.github.io/parkour/images/close_grey.png" />
 
 				Address: 97 Beacon Dr, Boston, MA
 				</br>
@@ -46,33 +46,41 @@
 		</div>
 	</div>
 	<script>
-		let allspaces_div = document.getElementById("mainDiv");
-		function X_reservation(ID){
+		function X_post(ID){
+			let allspaces_div = document.getElementById("mainDiv");
 			let space = document.getElementById('x_'+ID);
-			allspaces_div.removeChild( space );
+			allspaces_div.removeChild( space ); // remove the entire box
+			if (ID > 3)
+			{
+				let storage = JSON.parse( localStorage.localStorage ); 
+				storage.splice( ID-4, 1);
+				localStorage.localStorage = JSON.stringify( storage ); // no need to reorganize IDs.  When this page refreshes the divs will get newly reorganized IDs
+			}
 		}
-		// if the "localStorage" object within the browser's local storage exists, then run the following code.
-		storedValue = JSON.parse(localStorage.getItem("localStorage"))
-		for (i=0; i<storedValue.length;i++) {
-			newSpace = storedValue[i]
-			date = newSpace["calendarDate"]
-			address = newSpace["thirdTextBox"]
-			recurring = newSpace["sixthCheckbox"]
-			hourlyRate = newSpace["fourthTextBox"]
-			if (recurring == true) {
-				recurringText = "Yes";
+		if (localStorage.localStorage)// if the "localStorage" object within the browser's local storage exists, then run the following code.
+		{ // every time the page is refreshed, the div.parkingSpace divs get new IDs corresponding to their indices+4. 
+			storedValue = JSON.parse(localStorage.getItem("localStorage"))
+			for (i=0; i<storedValue.length;i++) {
+				newSpace = storedValue[i]
+				date = newSpace["calendarDate"]
+				address = newSpace["thirdTextBox"]
+				recurring = newSpace["sixthCheckbox"]
+				hourlyRate = newSpace["fourthTextBox"]
+				if (recurring == true) {
+					recurringText = "Yes";
+				}
+				else {
+					recurringText = "No";
+				}
+				let htmlBody = document.querySelector('#mainDiv');
+				let newDiv = document.createElement('div');
+				newDiv.innerHTML = `<img onclick="X_post(${i+4})" class="x_close" src="https://jdm-designers.github.io/parkour/images/close_grey.png" />`+
+				"Address: " + address + "</br> Date: " + date + "</br> Recurring Weekly: " + recurringText + "</br> Hourly Rate: " + hourlyRate;
+				newDiv.setAttribute("class", "parkingSpace");
+				newDiv.id = "x_"+(i+4);
+				
+				htmlBody.appendChild(newDiv)
 			}
-			else {
-				recurringText = "No";
-			}
-			let htmlBody = document.querySelector('#mainDiv');
-			let newDiv = document.createElement('div');
-			newDiv.innerHTML = `<img onclick="X_reservation(4)" class="x_close" src="https://jdm-designers.github.io/parkour/images/close_grey.png" />`+
-			"Address: " + address + "</br> Date: " + date + "</br> Recurring Weekly: " + recurringText + "</br> Hourly Rate: " + hourlyRate;
-			newDiv.setAttribute("class", "parkingSpace");
-			newDiv.id = "x_4";
-			
-			htmlBody.appendChild(newDiv)
 		}
 	</script>
 </body>
