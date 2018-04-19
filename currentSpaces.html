@@ -39,21 +39,24 @@
 	</div>
 	<script>
 		storedValue = JSON.parse(localStorage.getItem("localStorage"))
-		date = storedValue["calendarDate"]
-		address = storedValue["thirdTextBox"]
-		recurring = storedValue["sixthCheckbox"]
-		hourlyRate = storedValue["fourthTextBox"]
-		if (recurring == true) {
-			recurringText = "Yes";
-		}
-		else {
-			recurringText = "No";
-		}
-		let htmlBody = document.querySelector('#mainDiv');
-		let newDiv = document.createElement('div');
-		newDiv.innerHTML = "Address: " + address + "</br> Date: " + date + "</br> Recurring Weekly: " + recurringText + "</br> Hourly Rate: " + hourlyRate;
-		newDiv.setAttribute("class", "parkingSpace");
-		htmlBody.appendChild(newDiv)
+		for (i=0; i<storedValue.length;i++) {
+			newSpace = storedValue[i]
+			date = newSpace["calendarDate"]
+			address = newSpace["thirdTextBox"]
+			recurring = newSpace["sixthCheckbox"]
+			hourlyRate = newSpace["fourthTextBox"]
+			if (recurring == true) {
+				recurringText = "Yes";
+			}
+			else {
+				recurringText = "No";
+			}
+			let htmlBody = document.querySelector('#mainDiv');
+			let newDiv = document.createElement('div');
+			newDiv.innerHTML = "Address: " + address + "</br> Date: " + date + "</br> Recurring Weekly: " + recurringText + "</br> Hourly Rate: " + hourlyRate;
+			newDiv.setAttribute("class", "parkingSpace");
+			htmlBody.appendChild(newDiv)
+		}	
 	</script>
 </body>
 </html>

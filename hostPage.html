@@ -91,6 +91,10 @@ if (typeof(Storage) !== "undefined") {
 	name = "localStorage"
 	if (localStorage.getItem(name) !== null) {
 		console.log(JSON.parse(localStorage.getItem(name)));
+		var bigArray = JSON.parse(localStorage.getItem(name))
+	}
+	else {
+		var bigArray = [];
 	}
 	var submitButton = document.querySelector('#submitButton')
 	var firstTextBox = document.querySelector('#firstTextBox')
@@ -106,7 +110,7 @@ if (typeof(Storage) !== "undefined") {
 	var seventhCheckbox = document.querySelector('#sixthCheckbox')
 	var calendarDate = document.querySelector('#calendarDate')
 	submitButton.onclick = function() {
-		var newSpot = {}
+		var newSpot = {};
 		newSpot.firstTextBox = firstTextBox.value;
 		newSpot.secondTextBox = secondTextBox.value;
 		newSpot.thirdTextBox = thirdTextBox.value;
@@ -119,7 +123,8 @@ if (typeof(Storage) !== "undefined") {
 		newSpot.fourthTextBox = fourthTextBox.value
 		newSpot.seventhCheckbox = seventhCheckbox.checked
 		newSpot.calendarDate = calendarDate.value
-		localStorage.setItem("localStorage", JSON.stringify(newSpot))
+		bigArray.push(newSpot);
+		localStorage.setItem("localStorage", JSON.stringify(bigArray))
 		alert("Your Spot Has Been Submitted");
 	};
 } 
