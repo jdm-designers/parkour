@@ -1,14 +1,18 @@
+<!DOCTYPE html>
 <html>
 <head>
-<title>Current Spaces</title>
-<link rel="stylesheet" href="stylesheets/currentSpacesStyleSheet.css" type="text/css"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+	<title>Current Spaces</title>
+	<link rel="stylesheet" href="stylesheets/currentSpacesStyleSheet.css" type="text/css"/>
 </head>
 <body>
 	<div class="page_wrapper">
 		<h1>Current Spaces:</h1>
 		<p style="margin-top: 10px;">Here you can see the parking spots that you have made available.</p>
 		<div id="mainDiv">
-			<div class="parkingSpace">
+			<div class="parkingSpace" id="x_1">
+				<img onclick="X_reservation(1)" class="x_close" id="x_1" src="https://jdm-designers.github.io/parkour/images/close_grey.png" />
+
 				Address: 83 Redding Way, Boston, MA
 				</br>
 				Date: May 1
@@ -17,7 +21,9 @@
 				</br>
 				Hourly Rate: 5
 			</div>
-			<div class="parkingSpace">
+			<div class="parkingSpace" id="x_2">
+				<img onclick="X_reservation(2)" class="x_close" src="https://jdm-designers.github.io/parkour/images/close_grey.png" />
+
 				Address: 25 Landing Rd, Boston, MA
 				</br>
 				Date: May 10
@@ -26,7 +32,9 @@
 				</br>
 				Hourly Rate: 6
 			</div>
-			<div class="parkingSpace">
+			<div class="parkingSpace" id="x_3">
+				<img onclick="X_reservation(3)" class="x_close" src="https://jdm-designers.github.io/parkour/images/close_grey.png" />
+
 				Address: 97 Beacon Dr, Boston, MA
 				</br>
 				Date: May 18
@@ -38,6 +46,12 @@
 		</div>
 	</div>
 	<script>
+		let allspaces_div = document.getElementById("mainDiv");
+		function X_reservation(ID){
+			let space = document.getElementById('x_'+ID);
+			allspaces_div.removeChild( space );
+		}
+		// if the "localStorage" object within the browser's local storage exists, then run the following code.
 		storedValue = JSON.parse(localStorage.getItem("localStorage"))
 		for (i=0; i<storedValue.length;i++) {
 			newSpace = storedValue[i]
@@ -53,10 +67,13 @@
 			}
 			let htmlBody = document.querySelector('#mainDiv');
 			let newDiv = document.createElement('div');
-			newDiv.innerHTML = "Address: " + address + "</br> Date: " + date + "</br> Recurring Weekly: " + recurringText + "</br> Hourly Rate: " + hourlyRate;
+			newDiv.innerHTML = `<img onclick="X_reservation(4)" class="x_close" src="https://jdm-designers.github.io/parkour/images/close_grey.png" />`+
+			"Address: " + address + "</br> Date: " + date + "</br> Recurring Weekly: " + recurringText + "</br> Hourly Rate: " + hourlyRate;
 			newDiv.setAttribute("class", "parkingSpace");
+			newDiv.id = "x_4";
+			
 			htmlBody.appendChild(newDiv)
-		}	
+		}
 	</script>
 </body>
 </html>
