@@ -330,7 +330,7 @@ function initMap() { // get or pick location to center on Map
 
         initialMapcenter(userlatitude, userlongitude); 
     };
-    /*  I have a hunch that something in here is causing the slow-white background
+    //  I have a hunch that something in here is causing the slow-white background
     if ("geolocation" in navigator)
     {
         navigator.geolocation.getCurrentPosition( //geo_success, geo_error, geo_options
@@ -343,6 +343,7 @@ function initMap() { // get or pick location to center on Map
         geo_error();
     }
     */
+    /* 
     //======= So instead, I just do use the phony location every time.====
     userlatitude = 42.3807695;
     userlongitude = -71.1244957;
@@ -350,6 +351,7 @@ function initMap() { // get or pick location to center on Map
 
     initialMapcenter(userlatitude, userlongitude); 
     //=========
+    */
     
     var geocoder = new google.maps.Geocoder();
 
