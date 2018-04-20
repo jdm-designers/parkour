@@ -342,7 +342,7 @@ function initMap() { // get or pick location to center on Map
         
         geo_error();
     }
-    */
+    
     /* 
     //======= So instead, I just do use the phony location every time.====
     userlatitude = 42.3807695;
