@@ -1,7 +1,8 @@
 
-// Since that geolocation navigator is stupid, you either have to have your whole javascript in that function or you have to save the location in local storage. If you save the coordinates as a variable, you get lucky sometimes and the script works but not all the time.
 
-// TO DO: !'s 
+// ====== Set up ==== 
+
+// Since that geolocation navigator is stupid, you either have to have your whole javascript in that function or you have to save the location in local storage. If you save the coordinates as a variable, you get lucky sometimes and the script works but not all the time.
 
 if ( typeof(Storage) !== "undefined") // see if local storage can be done.
 {    
@@ -45,273 +46,26 @@ addressbar.onclick = function(){
 let today = new Date().toISOString().split('T')[0]; // get only yyyy-mm-dd
 let datechoose = document.getElementById("parkdate");
 datechoose.min = today;
-
- 
-function messagebox(text, selector_Pelement){
-    // check if there's already a message box. If so, do nothing.
-    // add text and ok button
-    // display message box
-    // query for the ok button
-    // add eventlistener to button
-
-    let parenttag = document.querySelector(selector_Pelement);
-    let box_node = document.createElement("div");
-    box_node.className = "popbox" ;  // the z-index is already set.
-    parenttag.appendChild( box_node ); // when you append child, it pushes this one to the beginning but only from element-wise perspective.
-
-    let boxes = document.getElementsByClassName("popbox");
-    let box = boxes[0];
-
-    box.innerHTML = text+`<br><center><button class="close">OK</button></center>`;
-
-    okbutton = document.querySelector("div.popbox > center > button.close");
-    okbutton.addEventListener(
-        'click', function(){ 
-            parenttag.removeChild( box );
-        }  
-    );
-}
-
-
-
-function choicebox(text, selector_Pelement, ID){ 
-    let boxcheck = document.getElementById("box_"+ID);
-    if (boxcheck == null)
-    {              
-        var parenttag = document.querySelector(selector_Pelement);
-        let box_node = document.createElement("div");
-        box_node.id = "box_"+ID ; 
-        box_node.className = "popbox" ; 
-        parenttag.appendChild( box_node );
-
-        var box = document.getElementById("box_"+ID);
-
-        box.innerHTML = text+`<br><div class="rowincolumn"> <button class="choice" id="back_${ID}">Back</button> <button class="choice" id="cancel_${ID}">Cancel</button> </div>`;
-
-        let backbutton = document.querySelector("#back_"+ID);
-        backbutton.addEventListener(
-            'click', function(){ 
-                parenttag.removeChild( box ); 
-            }  );
-        let cancelbutton = document.querySelector("#cancel_"+ID);
-
-        return cancelbutton
-    }
-}
-
-
-
-function bookingbox(text, bookedspot){ // they have just clicked the "BOOK" button
-    //let boxcheck = document.getElementById("box_"+1);
-    //if (boxcheck == null)
-    let boxescheck = document.getElementsByClassName("popbox");
-    if (boxescheck.length == 0)
-    {
-        var thisbookingtag = bookedspot.tagger ; 
-        let bookedspots = JSON.parse( localStorage.bookedspots );
-        var alreadybooked = false;
-        for (i=0 ; i< bookedspots.length ; i++)
-        {
-            if (thisbookingtag == bookedspots[i].tagger)
-            {
-                alreadybooked = true;
-            }
-        }
-        if (alreadybooked == false)
-        {
-            bookedspots.push( bookedspot );       
-            localStorage.bookedspots = JSON.stringify( bookedspots );
-
-            let cancelbutton1 = choicebox(text, "body", 1);
-
-            cancelbutton1.addEventListener(
-                'click', function(){ // open other window
-                    let boxcheck2 = document.getElementById("box_"+2);
-                    if (boxcheck2 == null)
-                    {
-                        let text2 = `<h3>Are you sure want to cancel?</h3><p>If you cancel, you'll be charged a $1.00 fee.</p>`;
-                        let cancelbutton2 = choicebox(text2, "body", 2); 
-                        
-                        cancelbutton2.addEventListener( // show one message box but close all other boxes.
-                            'click', function(){
-                                let bodytag = document.querySelector("body");
-                                let box1 = document.getElementById("box_"+1);
-                                let box2 = document.getElementById("box_"+2);
-                                if (box1 != null){ bodytag.removeChild( box1 ) } // this IF statement is because they could reach the "back" button before clicking this "cancel" button
-                                if (box2 != null){ bodytag.removeChild( box2 ) }
-
-                                let textcancelled = `<p>You have cancelled this reservation.  A fee has been charged to your account.</p>`
-                                messagebox(textcancelled, "body");
-
-                                // delete this spot from local storage, so that later when they look at the profile, the profile will be rendered without this spot booked.
-                                let bookedspots = JSON.parse( localStorage.bookedspots );
-                                for (i=0 ; i< bookedspots.length ; i++)
-                                {
-                                    let checktag = bookedspots[i].tagger ; 
-                                    if (checktag == thisbookingtag) 
-                                    {
-                                        bookedspots.splice( i ,1 ); // remove 1 element starting at index #ident
-                                        localStorage.bookedspots = JSON.stringify( bookedspots ) ;
-                                    }
-                                }  // If the FOR loop never finds the correct tag, then the user must have clicked the profile and deleted it there before clicking this 2nd "cancel" button.                 
-                            }
-                        );
-                    }
-                    else
-                    {
-                        // do nothing because they reached the "cancel" button of Box #1 even though they are on Box #2 right now.
-                    }
-                }
-            );
-        }
-        else
-        {
-            let text = `<h3>Check your profile</h3><p>You have already booked this spot before.</p>`;
-            messagebox(text, "body");        
-        }        
-    }
-    
-}
-
-
-function renderProfile(){
-
-    var wrapper = document.getElementsByClassName("wrap")[0];
-
-    if (profileopen == false)
-    {
-        profileopen = true;
-
-        wrapper.style.width = "100%";
-    }
-    else
-    {
-        // just re-render everything below.
-        old_profilepage = document.getElementsByClassName("profile")[0];
-        wrapper.removeChild( old_profilepage ); 
-    }
-
-    var profilepage = document.createElement("div");
-    profilepage.className = "profile";
-
-    let bookedspots = JSON.parse( localStorage.bookedspots );
-
-    if (bookedspots.length == 0)
-    {
-        var bookedsections = `<h3>You haven't booked anything yet!</h3> `;
-    }
-    else
-    {
-        var bookedsections = ""; 
-        for (i=0 ; i < bookedspots.length ; i++)
-        {
-            let bookedsection = `<div class="bookedsection" id="reservation_${i}">`+
-            `<img onclick="X_reservation(${i})" id="x_close" src="https://jdm-designers.github.io/parkour/images/close_grey.png" />`+
-            `<p>Date:  ${bookedspots[i].date} <br>Owner:  ${bookedspots[i].owner} <br>Address:  ${bookedspots[i].address} <br>Time:   ${bookedspots[i].time_start} - ${bookedspots[i].time_end}</p>`+
-            `</div>`;  // IDs are based on indices now.
-            bookedsections = bookedsections+" "+bookedsection ;
-        }
-            
-    }
-
-    let backbutton_id = "back_profile";
-    let insideprofile = `<div class="profile_top"> <h1 class="profile_top">Hello, Nicki Minaj!</h1> </div>`+
-    `<div class="profile_bottom">`+
-    `<h1 style="text-align: left">Your Upcoming Reservations</h1>`+
-    `<div class="reservations"> ${bookedsections} </div>`+
-    `<button class="close" id="${backbutton_id}">Back</button>`+ // hard-coded the ID
-    `</div>`;
-    profilepage.innerHTML = insideprofile;
-
-    wrapper.appendChild( profilepage );
-
-    let backbutton = document.getElementById(backbutton_id);
-    backbutton.addEventListener(
-        'click', function(){
-            wrapper.removeChild( profilepage );
-            wrapper.style.width = "auto";
-            profileopen = false;
-        }
-    );
-    /*
-    topdiv.style.borderBottom = "2px solid black"
-    */
-}
-
-
-// On click, open the driver profile page
-driverprofile.addEventListener('click', renderProfile);
-
-
-function X_reservation(ind){ // This is when they click the X button in the Profile. delete from local storage and re-render the profile page.
-    var partial_ID = "profile_cancel";
-    let profile_cancel_box = document.getElementById("box_"+partial_ID);
-    if (profile_cancel_box == null)
-    {
-        parentelement = "div.profile";
-
-        let text = `<h3>Are you sure want to cancel?</h3><p>If you cancel, you'll be charged a $1.00 fee.</p>`;
-        profile_cancelbutton = choicebox(text, parentelement, partial_ID);
-
-        profile_cancelbutton.addEventListener( // show one message box but close all other boxes.
-            'click', function(){
-                /*  There's no need to do this since the profile will be re-rendered anyway.
-                let parenttag = document.querySelector(".reservations");
-                let box = document.getElementById("reservation_"+ind);
-                parenttag.removeChild( box );
-                */
-
-                let textcancelled = `<p>You have cancelled this reservation.  A fee has been charged to your account.</p>`
-                
-                let bookedspots = JSON.parse( localStorage.bookedspots );
-                bookedspots.splice( ind ,1 ); // remove 1 element starting at index #ind
-
-                localStorage.bookedspots = JSON.stringify( bookedspots ) ;
-                renderProfile();
-
-                messagebox(textcancelled, parentelement);
-            }
-        );
-    }
-}
+datechoose.defaultValue = today;
 
 
 
 //======= Code that needs Google Maps API ===========
 
 
-
-function addMarker(location, tag, name, parkaddress, parkdate, parkstart, parkend){ // This adds and displays a marker.
-    let marker = new google.maps.Marker( 
-        {
-            position: location,
-            map: map,
-            tagger: tag,
-            owner: name,
-            address: parkaddress,
-            date: parkdate,
-            time_start: parkstart,
-            time_end: parkend
-        }
-    );
-        
-    return marker
-};
-
-
-function initialMapcenter(userlatitude, userlongitude){ // When the user first reaches the web page, center the map onto their location.
-    var centralposition = {lat: userlatitude, lng: userlongitude};
-
-    map = new google.maps.Map( 
-        document.getElementById('map'), 
-        {
-        zoom: 12,
-        center: centralposition//, mapTypeId: 'terrain' 
-        } 
-    );
-};
-
 function initMap() { // get or pick location to center on Map
+
+    function initialMapcenter(userlatitude, userlongitude){ // When the user first reaches the web page, center the map onto their location.
+        var centralposition = {lat: userlatitude, lng: userlongitude};
+    
+        map = new google.maps.Map( 
+            document.getElementById('map'), 
+            {
+            zoom: 12,
+            center: centralposition//, mapTypeId: 'terrain' 
+            } 
+        );
+    };
 
     function geo_success(position){  // get user's location 
         userlatitude = position.coords.latitude;
@@ -330,11 +84,18 @@ function initMap() { // get or pick location to center on Map
 
         initialMapcenter(userlatitude, userlongitude); 
     };
+
+    var geo_options = { // this is the "PositionOptions" interface/object
+        enableHighAccuracy: false, // this is the default //  "Is a Boolean that indicates the application would like to receive the best possible results. If true and if the device is able to provide a more accurate position, it will do so. Note that this can result in slower response times or increased power consumption (with a GPS chip on a mobile device for example). On the other hand, if false, the device can take the liberty to save resources by responding more quickly and/or using less power. Default: false."
+        maximumAge: 100000, // "Is a positive long value indicating the maximum age in milliseconds of a possible cached position that is acceptable to return. If set to 0, it means that the device cannot use a cached position and must attempt to retrieve the real current position. If set to Infinity the device must return a cached position regardless of its age. Default: 0."
+        timeout: 4000 // default is Infinity // "Is a positive long value representing the maximum length of time (in milliseconds) the device is allowed to take in order to return a position. The default value is Infinity, meaning that getCurrentPosition() won't return until the position is available."
+    }
+
     //  I have a hunch that something in here is causing the slow-white background
     if ("geolocation" in navigator)
     {
         navigator.geolocation.getCurrentPosition( //geo_success, geo_error, geo_options
-            geo_success, geo_error);
+            geo_success, geo_error, geo_options);
     }
     else
     {
@@ -506,6 +267,24 @@ function formFilled(pos){
         );
     } // end of FOR loop
     localStorage.tagger = tag ; 
+};
+
+
+function addMarker(location, tag, name, parkaddress, parkdate, parkstart, parkend){ // This adds and displays a marker.
+    let marker = new google.maps.Marker( 
+        {
+            position: location,
+            map: map,
+            tagger: tag,
+            owner: name,
+            address: parkaddress,
+            date: parkdate,
+            time_start: parkstart,
+            time_end: parkend
+        }
+    );
+        
+    return marker
 };
 
 
