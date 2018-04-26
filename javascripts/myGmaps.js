@@ -21,33 +21,30 @@ if ( typeof(Storage) !== "undefined") // see if local storage can be done.
         localStorage.setItem("userposition", JSON.stringify(UP) );
     }
 }
+else
+{
+    alert('Sorry, this site needs local storage');
+}
 
 // Set up important global variables
+
 var map; 
 //var zbase = 5; 
 var markers = []; 
 var Pspots = [];
 var Nphonyspots = 10;
 var infowindows = [];
+
 let goButton = document.querySelector(".form");
 let driverprofile = document.querySelector("#driverprofile");
+var init_wrapper_width = document.getElementsByClassName("wrap")[0].style.width;
+let init_side_menu = document.querySelector("div.side_menu");
+var init_side_menu_innerHTML = init_side_menu.innerHTML;
+let init_side_switch = document.querySelector("div.side_switch");
+var init_side_switch_left = init_side_switch.style.left;
+
+
 var profileopen = false;
-
-
-// on click ... delete the default "value" in the address box
-var addressbarclicks = 0;
-var addressbar = document.getElementById("address");
-addressbar.onclick = function(){
-    if (addressbarclicks == 0){ addressbar.value = '' };
-    addressbarclicks += 1;
-}
-
-// find today's real date and put that as the "min" value of the input parkstart tag
-let today = new Date().toISOString().split('T')[0]; // get only yyyy-mm-dd
-let datechoose = document.getElementById("parkdate");
-datechoose.min = today;
-datechoose.defaultValue = today;
-
 
 
 //======= Code that needs Google Maps API ===========
@@ -88,7 +85,7 @@ function initMap() { // get or pick location to center on Map
     var geo_options = { // this is the "PositionOptions" interface/object
         enableHighAccuracy: false, // this is the default //  "Is a Boolean that indicates the application would like to receive the best possible results. If true and if the device is able to provide a more accurate position, it will do so. Note that this can result in slower response times or increased power consumption (with a GPS chip on a mobile device for example). On the other hand, if false, the device can take the liberty to save resources by responding more quickly and/or using less power. Default: false."
         maximumAge: 100000, // "Is a positive long value indicating the maximum age in milliseconds of a possible cached position that is acceptable to return. If set to 0, it means that the device cannot use a cached position and must attempt to retrieve the real current position. If set to Infinity the device must return a cached position regardless of its age. Default: 0."
-        timeout: 4000 // default is Infinity // "Is a positive long value representing the maximum length of time (in milliseconds) the device is allowed to take in order to return a position. The default value is Infinity, meaning that getCurrentPosition() won't return until the position is available."
+        timeout: 2000 // default is Infinity // "Is a positive long value representing the maximum length of time (in milliseconds) the device is allowed to take in order to return a position. The default value is Infinity, meaning that getCurrentPosition() won't return until the position is available."
     }
 
     //  I have a hunch that something in here is causing the slow-white background
@@ -180,6 +177,10 @@ function formFilled(pos){
     let month = y_m_d[1];
     let day = y_m_d[2];
     let human_date =  new Date(year,month,day).toDateString();
+
+    let halfday = 'AM';
+    if ( Number( F_parkstart.split(":")[0] ) > 12 ){ halfday = 'PM' }
+    F_parkstart = String( Number( F_parkstart.split(":")[0] ) % 12 )+F_parkstart.split(":")[1]+` ${halfday}` ; 
 
     let latitude = pos.lat;
     let longitude = pos.lng;
