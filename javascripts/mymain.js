@@ -155,13 +155,17 @@ function renderProfile(){
 
     var wrapper = document.getElementsByClassName("wrap")[0];
     var side_menu = document.getElementsByClassName("side_menu")[0];
+    var side_switch = document.getElementsByClassName("side_switch")[0];
 
     if (profileopen == false)
     {
         profileopen = true;
 
+        //side_menu.style.flexBasis = init_wrapper_width;
+        //side_menu.style.width = init_wrapper_width;
+        side_menu.style.flexGrow = "0";
         wrapper.style.width = "100%";
-        side_menu.style.flexBasis = init_wrapper_width;
+        side_switch.style.display = "none";
     }
     else
     {
@@ -208,8 +212,14 @@ function renderProfile(){
     backbutton.addEventListener(
         'click', function(){
             wrapper.removeChild( profilepage );
-            wrapper.style.width = init_wrapper_width;
-            side_menu.style.flexBasis = "";
+            //side_switch.style.zIndex = init_side_switch_zIndex;
+            //side_switch.style.display = "auto";
+            side_switch.style.display = "";
+            //side_menu.style.flexBasis = "";
+            //side_menu.style.width = '';
+            side_menu.style.flexGrow = "1";
+            //wrapper.style.width = init_wrapper_width;
+            wrapper.style.width = 'auto';
             profileopen = false;
         }
     );
@@ -220,8 +230,12 @@ function renderProfile(){
 
 
 // On click, open the driver profile page
-driverprofile.addEventListener('click', renderProfile);
-
+driverprofile.addEventListener('click', renderProfile); // doesn't seem to work for divs
+/*
+driverprofile.onclick = function(){
+    renderProfile();
+}
+*/
 
 function X_reservation(ind){ // This is when they click the X button in the Profile. delete from local storage and re-render the profile page.
     var partial_ID = "profile_cancel";
@@ -256,25 +270,41 @@ function X_reservation(ind){ // This is when they click the X button in the Prof
 }
 
 function open_side(boole){
-    let wrapper = document.querySelector("div.wrap");
+    //let wrapper = document.querySelector("div.wrap");
     let side_menu = document.querySelector("div.side_menu");
     let side_switch = document.querySelector("div.side_switch");
     if ( boole == false)
     {   
+        /*
         side_menu.style.flexShrink = '1';
         wrapper.style.width = "10px";
-        side_menu.innerHTML = '';
         side_switch.style.left = "6px";
+        */
+        side_menu.innerHTML = '';
+        //side_menu.style.flexShrink = "0"; // using the ".style" receieves and changes the inline HTML
+        side_menu.style.flexGrow = "0";
+        side_menu.style.flexBasis = "10px";
+        side_switch.style.left = "10px";
         side_switch.setAttribute("onclick", "open_side(true)");
         side_switch.innerHTML = "&#10095;";
     }
     if ( boole == true)
     {
+        /*
         side_menu.style.flexShrink = '0';
         wrapper.style.width = init_wrapper_width;
-        side_menu.innerHTML = init_side_menu_innerHTML; 
         side_switch.style.left = init_side_switch_left;
-        side_switch.setAttribute("onclick", "open_side(false)");
-        side_switch.innerHTML = "&#10094;";
+        */
+       side_switch.style.left = init_side_switch_left;
+       //side_menu.style.flexShrink = '0';
+       side_menu.style.flexGrow = '1';
+       side_menu.style.flexBasis = init_side_menu_flexBasis;
+
+       side_menu.innerHTML = init_side_menu_innerHTML;
+       driverprofile = document.querySelector("#driverprofile"); 
+       driverprofile.addEventListener('click', renderProfile);
+       
+       side_switch.setAttribute("onclick", "open_side(false)");
+       side_switch.innerHTML = "&#10094;";
     }
 }

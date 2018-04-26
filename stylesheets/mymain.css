@@ -36,7 +36,6 @@ div.wrap{
   flex-direction: row;
   height: 100%;
   filter: alpha(opacity=0);
-  width: 190px;
 }
 
 
@@ -47,8 +46,8 @@ div.side_menu{
 
   padding-top: 20px;
   flex-shrink: 0;
-  flex-grow: 1;
-  /*flex-basis: 195px;*/
+  flex-grow: 1; /* grows further the text needs it to. */
+  flex-basis: 180px;
   border: 3px solid black;
 }
 div.m_item{
@@ -63,7 +62,7 @@ div.m_item:hover{
 }
 div.side_switch{
   position: absolute;
-  left: 186px;
+  /*left: 180px;  Now javascript sets this*/
   top: 40%;
   z-index: 8;
   width: 30px;
@@ -188,7 +187,7 @@ button.book{
 div.profile{
   background-color: rgb(45, 179, 231);
   color: white;
-  /*flex-grow: 0;*/
+  flex-grow: 1;
   border: 2px solid black;
   display: flex;
   flex-direction: column;

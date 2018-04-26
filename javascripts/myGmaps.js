@@ -23,26 +23,36 @@ if ( typeof(Storage) !== "undefined") // see if local storage can be done.
 }
 else
 {
-    alert('Sorry, this site needs local storage');
+    alert("Sorry, this site needs local storage");
 }
 
 // Set up important global variables
 
 var map; 
-//var zbase = 5; 
+var zbase = 5; 
 var markers = []; 
 var Pspots = [];
 var Nphonyspots = 10;
 var infowindows = [];
 
 let goButton = document.querySelector(".form");
-let driverprofile = document.querySelector("#driverprofile");
+var driverprofile = document.querySelector("#driverprofile");
+/*
 var init_wrapper_width = document.getElementsByClassName("wrap")[0].style.width;
-let init_side_menu = document.querySelector("div.side_menu");
-var init_side_menu_innerHTML = init_side_menu.innerHTML;
+var init_side_menu_innerHTML = document.querySelector("div.side_menu").innerHTML;
 let init_side_switch = document.querySelector("div.side_switch");
 var init_side_switch_left = init_side_switch.style.left;
+var init_side_switch_zIndex = init_side_switch.style.zIndex;
+*/
+let side_menu = document.querySelector("div.side_menu");
+var init_side_menu_innerHTML = side_menu.innerHTML;
+let side_menu_style = window.getComputedStyle(side_menu);
+var init_side_menu_flexBasis = side_menu_style.flexBasis;
 
+let side_switch = document.querySelector("div.side_switch");
+side_switch.style.left = init_side_menu_flexBasis;
+// side_switch_style.left = init_side_menu_flexBasis; this can't be done... Error: "Uncaught DOMException: Failed to set the 'left' property on 'CSSStyleDeclaration': These styles are computed, and therefore the 'left' property is read-only.""
+var init_side_switch_left = init_side_menu_flexBasis;
 
 var profileopen = false;
 
@@ -50,49 +60,49 @@ var profileopen = false;
 //======= Code that needs Google Maps API ===========
 
 
+function initialMapcenter(userlatitude, userlongitude){ // When the user first reaches the web page, center the map onto their location.
+    var centralposition = {lat: userlatitude, lng: userlongitude};
+
+    map = new google.maps.Map( 
+        document.getElementById('map'), 
+        {
+        zoom: 12,
+        center: centralposition//, mapTypeId: 'terrain' 
+        } 
+    );
+};
+
+function geo_success(position){  // get user's location 
+    userlatitude = position.coords.latitude;
+    userlongitude = position.coords.longitude;
+    localStorage.userposition = JSON.stringify(  {lat: userlatitude, lng: userlongitude} ) 
+
+    initialMapcenter(userlatitude, userlongitude); 
+};
+
+function geo_error(){ // use phony location
+    console.log('something went wrong with getting position. So, using phony central location.');
+
+    userlatitude = 42.3807695;
+    userlongitude = -71.1244957;
+    localStorage.userposition = JSON.stringify(  {lat: userlatitude, lng: userlongitude}  );
+
+    initialMapcenter(userlatitude, userlongitude); 
+};
+
+var geo_options = { // this is the "PositionOptions" interface/object
+    enableHighAccuracy: false, // this is the default //  "Is a Boolean that indicates the application would like to receive the best possible results. If true and if the device is able to provide a more accurate position, it will do so. Note that this can result in slower response times or increased power consumption (with a GPS chip on a mobile device for example). On the other hand, if false, the device can take the liberty to save resources by responding more quickly and/or using less power. Default: false."
+    maximumAge: 100000, // "Is a positive long value indicating the maximum age in milliseconds of a possible cached position that is acceptable to return. If set to 0, it means that the device cannot use a cached position and must attempt to retrieve the real current position. If set to Infinity the device must return a cached position regardless of its age. Default: 0."
+    timeout: 2000 // default is Infinity // "Is a positive long value representing the maximum length of time (in milliseconds) the device is allowed to take in order to return a position. The default value is Infinity, meaning that getCurrentPosition() won't return until the position is available."
+}
+
 function initMap() { // get or pick location to center on Map
 
-    function initialMapcenter(userlatitude, userlongitude){ // When the user first reaches the web page, center the map onto their location.
-        var centralposition = {lat: userlatitude, lng: userlongitude};
-    
-        map = new google.maps.Map( 
-            document.getElementById('map'), 
-            {
-            zoom: 12,
-            center: centralposition//, mapTypeId: 'terrain' 
-            } 
-        );
-    };
-
-    function geo_success(position){  // get user's location 
-        userlatitude = position.coords.latitude;
-        userlongitude = position.coords.longitude;
-        localStorage.userposition = JSON.stringify(  {lat: userlatitude, lng: userlongitude} ) 
-
-        initialMapcenter(userlatitude, userlongitude); 
-    };
-
-    function geo_error(){ // use phony location
-        console.log('something went wrong with getting position. So, using phony central location.');
-
-        userlatitude = 42.3807695;
-        userlongitude = -71.1244957;
-        localStorage.userposition = JSON.stringify(  {lat: userlatitude, lng: userlongitude}  );
-
-        initialMapcenter(userlatitude, userlongitude); 
-    };
-
-    var geo_options = { // this is the "PositionOptions" interface/object
-        enableHighAccuracy: false, // this is the default //  "Is a Boolean that indicates the application would like to receive the best possible results. If true and if the device is able to provide a more accurate position, it will do so. Note that this can result in slower response times or increased power consumption (with a GPS chip on a mobile device for example). On the other hand, if false, the device can take the liberty to save resources by responding more quickly and/or using less power. Default: false."
-        maximumAge: 100000, // "Is a positive long value indicating the maximum age in milliseconds of a possible cached position that is acceptable to return. If set to 0, it means that the device cannot use a cached position and must attempt to retrieve the real current position. If set to Infinity the device must return a cached position regardless of its age. Default: 0."
-        timeout: 2000 // default is Infinity // "Is a positive long value representing the maximum length of time (in milliseconds) the device is allowed to take in order to return a position. The default value is Infinity, meaning that getCurrentPosition() won't return until the position is available."
-    }
 
     //  I have a hunch that something in here is causing the slow-white background
     if ("geolocation" in navigator)
     {
-        navigator.geolocation.getCurrentPosition( //geo_success, geo_error, geo_options
-            geo_success, geo_error, geo_options);
+        navigator.geolocation.getCurrentPosition( geo_success, geo_error, geo_options ); //geo_success, geo_error, geo_options
     }
     else
     {
@@ -112,6 +122,33 @@ function initMap() { // get or pick location to center on Map
     */
     
     var geocoder = new google.maps.Geocoder();
+
+    function geocodeAddress(geocoder, resultsMap) { // convert the address into longitude and latitude
+        var address = document.getElementById('address').value;
+        geocoder.geocode( 
+            {'address': address}, function(results, status){
+                if (status === 'OK') 
+                {
+                    resultsMap.setCenter(results[0].geometry.location); // re-centers the map
+                    let newlocation = {lat: results[0].geometry.location.lat(), lng: results[0].geometry.location.lng() }; 
+    
+                    //initialMapcenter(newlocation); // redefines the "map" variable and re-centers // this isn't allowed to be re-called.
+                    
+                    formFilled(newlocation);
+    
+                } 
+                else 
+                {
+                    //alert('Geocode was not successful for the following reason: ' + status);
+                    //alert('I could not process this address. Reason:' + status); // Make this into a message box instead!
+                    message = `<h3>Problem with Address</h3>`+
+                    `<p>I could not process this address.<br>Reason: `+status+`</p>`
+                    messagebox(message, "body");
+    
+                }
+            }
+        );
+    };
 
     goButton.addEventListener( // set this button to "listen for clicks"
         'click', function(){ 
@@ -139,32 +176,6 @@ function initMap() { // get or pick location to center on Map
     
 };
 
-function geocodeAddress(geocoder, resultsMap) { // convert the address into longitude and latitude
-    var address = document.getElementById('address').value;
-    geocoder.geocode( 
-        {'address': address}, function(results, status){
-            if (status === 'OK') 
-            {
-                resultsMap.setCenter(results[0].geometry.location); // re-centers the map
-                let newlocation = {lat: results[0].geometry.location.lat(), lng: results[0].geometry.location.lng() }; 
-
-                //initialMapcenter(newlocation); // redefines the "map" variable and re-centers // this isn't allowed to be re-called.
-
-                formFilled(newlocation);
-
-            } 
-            else 
-            {
-                //alert('Geocode was not successful for the following reason: ' + status);
-                //alert('I could not process this address. Reason:' + status); // Make this into a message box instead!
-                message = `<h3>Problem with Address</h3>`+
-                `<p>I could not process this address.<br>Reason: `+status+`</p>`
-                messagebox(message, "body");
-
-            }
-        }
-    );
-};
 
 function formFilled(pos){
     let F_address = document.getElementById("address").value;
@@ -178,9 +189,8 @@ function formFilled(pos){
     let day = y_m_d[2];
     let human_date =  new Date(year,month,day).toDateString();
 
-    let halfday = 'AM';
-    if ( Number( F_parkstart.split(":")[0] ) > 12 ){ halfday = 'PM' }
-    F_parkstart = String( Number( F_parkstart.split(":")[0] ) % 12 )+F_parkstart.split(":")[1]+` ${halfday}` ; 
+    F_parkstart = timestring(F_parkstart);
+    F_parkend = timestring(F_parkend);
 
     let latitude = pos.lat;
     let longitude = pos.lng;
@@ -270,6 +280,26 @@ function formFilled(pos){
     localStorage.tagger = tag ; 
 };
 
+function timestring(militarytime){
+    // Example: militartime = "14:00"
+    let halfday = 'AM';
+    if ( Number( militarytime.split(":")[0] ) > 11 ){ halfday = 'PM' } // because it cannot be 24.
+
+    var time_str;
+    switch( Number( militarytime.split(":")[0] ) )
+    {
+        default:
+            time_str = String( Number( militarytime.split(":")[0] ) % 12 )+":"+militarytime.split(":")[1]+` ${halfday}` ;   
+            break;
+        case 12:
+            time_str = "12:00 PM";  
+            break;
+
+        case 0:
+            time_str = "12:00 AM";  
+    }
+    return time_str
+}
 
 function addMarker(location, tag, name, parkaddress, parkdate, parkstart, parkend){ // This adds and displays a marker.
     let marker = new google.maps.Marker( 
