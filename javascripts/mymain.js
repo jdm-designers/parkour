@@ -41,7 +41,7 @@ function messagebox(text, selector_Pelement){
 
     box.innerHTML = text+`<br><center><button class="close">OK</button></center>`;
 
-    okbutton = document.querySelector("div.popbox > center > button.close");
+    okbutton = document.querySelector("div.popbox  button.close"); //"div.popbox > center > button.close" // check out "css combinators"
     okbutton.addEventListener(
         'click', function(){ 
             parenttag.removeChild( box );

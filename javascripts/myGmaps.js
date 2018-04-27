@@ -34,6 +34,7 @@ var markers = [];
 var Pspots = [];
 var Nphonyspots = 10;
 var infowindows = [];
+var profileopen = false;
 
 let goButton = document.querySelector(".form");
 var driverprofile = document.querySelector("#driverprofile");
@@ -45,16 +46,16 @@ var init_side_switch_left = init_side_switch.style.left;
 var init_side_switch_zIndex = init_side_switch.style.zIndex;
 */
 let side_menu = document.querySelector("div.side_menu");
-var init_side_menu_innerHTML = side_menu.innerHTML;
+var init_side_menu_innerHTML = side_menu.innerHTML;  
 let side_menu_style = window.getComputedStyle(side_menu);
 var init_side_menu_flexBasis = side_menu_style.flexBasis;
 
 let side_switch = document.querySelector("div.side_switch");
-side_switch.style.left = init_side_menu_flexBasis;
+side_switch.style.left = init_side_menu_flexBasis;  // Setting the "left" style of the side switch.
 // side_switch_style.left = init_side_menu_flexBasis; this can't be done... Error: "Uncaught DOMException: Failed to set the 'left' property on 'CSSStyleDeclaration': These styles are computed, and therefore the 'left' property is read-only.""
 var init_side_switch_left = init_side_menu_flexBasis;
 
-var profileopen = false;
+// if screen is certain size then change height of 
 
 
 //======= Code that needs Google Maps API ===========
