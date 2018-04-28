@@ -35,8 +35,9 @@ var Pspots = [];
 var Nphonyspots = 10;
 var infowindows = [];
 var profileopen = false;
+var SM_open = true;
 
-let goButton = document.querySelector(".form");
+var goButton = document.querySelector(".form");
 var driverprofile = document.querySelector("#driverprofile");
 /*
 var init_wrapper_width = document.getElementsByClassName("wrap")[0].style.width;
@@ -55,7 +56,23 @@ side_switch.style.left = init_side_menu_flexBasis;  // Setting the "left" style 
 // side_switch_style.left = init_side_menu_flexBasis; this can't be done... Error: "Uncaught DOMException: Failed to set the 'left' property on 'CSSStyleDeclaration': These styles are computed, and therefore the 'left' property is read-only.""
 var init_side_switch_left = init_side_menu_flexBasis;
 
-// if screen is certain size then change height of 
+let address_field = document.querySelector("input#address");
+let date_field = document.querySelector("input#parkdate");
+let Tstart_field = document.querySelector("input#parkstart");
+let Tend_field = document.querySelector("input#parkend");
+let Form_fields = [address_field, date_field, Tstart_field, Tend_field];
+for (i=0 ; i < Form_fields.length ; i++)
+{
+    Form_fields[i].addEventListener(
+        'keyup', function(event){
+            //event.preventDefault();
+            if (event.keyCode === 13) // 13 is the Enter key
+            {
+                goButton.click();
+            }
+        }
+    )
+} 
 
 
 //======= Code that needs Google Maps API ===========
@@ -261,7 +278,8 @@ function formFilled(pos){
                 bookbutton = bookbuttons[bookbuttons.length-1];
                 bookbutton.addEventListener( 
                     'click', function(){ 
-                        let textstuff = `<h3>You're all set!</h3><p>You've booked a parking spot at ${Paddress} on ${Pdate} from ${Pstart} to ${Pend}.</p><p>However, you can cancel this reservation.</p><p>This reservation is now in your profile.</p>`;    
+                        //let textstuff = `<h3>You're all set!</h3><p>You've booked a parking spot at ${Paddress} on ${Pdate} from ${Pstart} to ${Pend}.</p><p>However, you can cancel this reservation.</p><p>This reservation is now in your profile.</p>`;    
+                        let textstuff = `<p>Are you sure you want to book this spot?</p>`
 
                         let bookedspot= {
                             tagger: objecttag,

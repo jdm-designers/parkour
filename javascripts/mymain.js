@@ -63,20 +63,53 @@ function choicebox(text, selector_Pelement, ID){
 
         var box = document.getElementById("box_"+ID);
 
-        box.innerHTML = text+`<br><div class="rowincolumn"> <button class="choice" id="back_${ID}">Back</button> <button class="choice" id="cancel_${ID}">Cancel</button> </div>`;
+        box.innerHTML = text+`<br><div class="rowincolumn"> <button class="choice" id="No_${ID}">No</button> <button class="choice" id="Yes_${ID}">Yes</button> </div>`;
 
-        let backbutton = document.querySelector("#back_"+ID);
-        backbutton.addEventListener(
+        let nobutton = document.querySelector("#No_"+ID);
+        nobutton.addEventListener(
             'click', function(){ 
                 parenttag.removeChild( box ); 
             }  );
-        let cancelbutton = document.querySelector("#cancel_"+ID);
+        let yesbutton = document.querySelector("#Yes_"+ID);
 
-        return cancelbutton
+        return yesbutton
     }
 }
 
+function anybox(insiderHTML, selector_Pelement, ID, selector_return=null){
 
+    let parenttag = document.querySelector(selector_Pelement);
+    let box_node = document.createElement("div");
+    box_node.className = "popbox" ;  // the z-index is already set.
+    parenttag.appendChild( box_node ); // when you append child, it pushes this one to the beginning but only from element-wise perspective.
+
+    let boxes = document.getElementsByClassName("popbox");
+    let box = boxes[0];
+
+    box.id = ID;
+    box.innerHTML = insiderHTML;
+
+    if (selector_return != null)
+    {
+        return document.querySelector( selector_return ); 
+    }
+}
+
+function anybox2(insiderHTML, selector_Pelement, ID, selector_return1, selector_return2){
+
+    let parenttag = document.querySelector(selector_Pelement);
+    let box_node = document.createElement("div");
+    box_node.className = "popbox" ;  // the z-index is already set.
+    parenttag.appendChild( box_node ); // when you append child, it pushes this one to the beginning but only from element-wise perspective.
+
+    let boxes = document.getElementsByClassName("popbox");
+    let box = boxes[0];
+
+    box.id = ID;
+    box.innerHTML = insiderHTML;
+    
+    return [ document.querySelector( selector_return1 ), document.querySelector( selector_return2 ) ] ; 
+}
 
 function bookingbox(text, bookedspot){ // they have just clicked the "BOOK" button
     //let boxcheck = document.getElementById("box_"+1);
@@ -85,7 +118,7 @@ function bookingbox(text, bookedspot){ // they have just clicked the "BOOK" butt
     if (boxescheck.length == 0)
     {
         var thisbookingtag = bookedspot.tagger ; 
-        let bookedspots = JSON.parse( localStorage.bookedspots );
+        var bookedspots = JSON.parse( localStorage.bookedspots );
         var alreadybooked = false;
         for (i=0 ; i< bookedspots.length ; i++)
         {
@@ -96,48 +129,47 @@ function bookingbox(text, bookedspot){ // they have just clicked the "BOOK" butt
         }
         if (alreadybooked == false)
         {
-            bookedspots.push( bookedspot );       
-            localStorage.bookedspots = JSON.stringify( bookedspots );
+            //bookedspots.push( bookedspot );       
+            //localStorage.bookedspots = JSON.stringify( bookedspots );
 
-            let cancelbutton1 = choicebox(text, "body", 1);
+            let yesbutton1 = choicebox(text, "body", 1);
 
-            cancelbutton1.addEventListener(
+            yesbutton1.addEventListener(
                 'click', function(){ // open other window
-                    let boxcheck2 = document.getElementById("box_"+2);
-                    if (boxcheck2 == null)
-                    {
-                        let text2 = `<h3>Are you sure want to cancel?</h3><p>If you cancel, you'll be charged a $1.00 fee.</p>`;
-                        let cancelbutton2 = choicebox(text2, "body", 2); 
-                        
-                        cancelbutton2.addEventListener( // show one message box but close all other boxes.
-                            'click', function(){
-                                let bodytag = document.querySelector("body");
-                                let box1 = document.getElementById("box_"+1);
-                                let box2 = document.getElementById("box_"+2);
-                                if (box1 != null){ bodytag.removeChild( box1 ) } // this IF statement is because they could reach the "back" button before clicking this "cancel" button
-                                if (box2 != null){ bodytag.removeChild( box2 ) }
 
-                                let textcancelled = `<p>You have cancelled this reservation.  A fee has been charged to your account.</p>`
-                                messagebox(textcancelled, "body");
+                    // solidify that this is a new booked spot.
+                    bookedspots.push( bookedspot );       
+                    localStorage.bookedspots = JSON.stringify( bookedspots );
 
-                                // delete this spot from local storage, so that later when they look at the profile, the profile will be rendered without this spot booked.
-                                let bookedspots = JSON.parse( localStorage.bookedspots );
-                                for (i=0 ; i< bookedspots.length ; i++)
-                                {
-                                    let checktag = bookedspots[i].tagger ; 
-                                    if (checktag == thisbookingtag) 
-                                    {
-                                        bookedspots.splice( i ,1 ); // remove 1 element starting at index #ident
-                                        localStorage.bookedspots = JSON.stringify( bookedspots ) ;
-                                    }
-                                }  // If the FOR loop never finds the correct tag, then the user must have clicked the profile and deleted it there before clicking this 2nd "cancel" button.                 
+                    // delete previous choicebox
+                    var parent = document.querySelector("body");
+                    let box1 = document.getElementById("box_"+1);
+                    parent.removeChild(box1);
+
+                    let text2 = `<button class="X" id="congrats">x</button>`+
+                    `<h3>You're all set!</h3><p>You've booked a parking spot at ${bookedspot.address} on ${bookedspot.date} from ${bookedspot.time_start} to ${bookedspot.time_end} at the rate of $2/hour.  The fee has been charged to your credit card in your profile.</p><p>To cancel your reservation, go to your profile page.</p>`+
+                    `<br><center><button class="close" id="profile">Profile</button></center>`;
+
+                    let bothbuttons = anybox2(text2, "body","box_congrats","button#profile", "button.X#congrats");
+
+                    bothbuttons[1].addEventListener(
+                        'click', function(){
+                            let box2 = document.querySelector("#box_congrats");
+                            parent.removeChild(box2);
+                        }
+                    );
+
+                    bothbuttons[0].addEventListener(
+                        'click', function(){
+                            let box2 = document.querySelector("#box_congrats");
+                            parent.removeChild(box2);
+
+                            if (SM_open==false){
+                                open_side(true);
                             }
-                        );
-                    }
-                    else
-                    {
-                        // do nothing because they reached the "cancel" button of Box #1 even though they are on Box #2 right now.
-                    }
+                            renderProfile();
+                        }
+                    );                  
                 }
             );
         }
@@ -198,7 +230,10 @@ function renderProfile(){
     }
 
     let backbutton_id = "back_profile";
-    let insideprofile = `<div class="profile_top"> <h1 class="profile_top">Hello, Leonardo DiCaprio!</h1> </div>`+
+    let insideprofile = `<div class="profile_top">`+
+    `<button class="X" id="${backbutton_id}">x</button> <h1 class="profile_top">Hello, Leonardo DiCaprio!</h1>`+
+    `<div class="profile_info">   <div>Email: TitanicBoy@college.harvard.edu</div> <div>Payment method: Visa card ending in 9876</div> <button id="edit_profile">Edit Profile Info</button>   </div>`+
+    `</div>`+
     `<div class="profile_bottom">`+
     `<h1 style="text-align: left">Your Upcoming Reservations</h1>`+
     `<div class="reservations"> ${bookedsections} </div>`+
@@ -208,24 +243,25 @@ function renderProfile(){
 
     wrapper.appendChild( profilepage );
 
-    let backbutton = document.getElementById(backbutton_id);
-    backbutton.addEventListener(
-        'click', function(){
-            wrapper.removeChild( profilepage );
-            //side_switch.style.zIndex = init_side_switch_zIndex;
-            //side_switch.style.display = "auto";
-            side_switch.style.display = "";
-            //side_menu.style.flexBasis = "";
-            //side_menu.style.width = '';
-            side_menu.style.flexGrow = "1";
-            //wrapper.style.width = init_wrapper_width;
-            wrapper.style.width = 'auto';
-            profileopen = false;
-        }
-    );
-    /*
-    topdiv.style.borderBottom = "2px solid black"
-    */
+    //let backbutton = document.getElementById(backbutton_id);
+    let backer_buttons = document.querySelectorAll("#back_profile");
+    for (i= 0 ; i< backer_buttons.length ; i++)
+    {
+        backer_buttons[i].addEventListener(
+            'click', function(){
+                wrapper.removeChild( profilepage );
+                //side_switch.style.zIndex = init_side_switch_zIndex;
+                //side_switch.style.display = "auto";
+                side_switch.style.display = "";
+                //side_menu.style.flexBasis = "";
+                //side_menu.style.width = '';
+                side_menu.style.flexGrow = "1";
+                //wrapper.style.width = init_wrapper_width;
+                wrapper.style.width = 'auto';
+                profileopen = false;
+            }
+        );
+    }
 }
 
 
@@ -287,6 +323,7 @@ function open_side(boole){
         side_switch.style.left = "10px";
         side_switch.setAttribute("onclick", "open_side(true)");
         side_switch.innerHTML = "&#10095;";
+        SM_open = false;
     }
     if ( boole == true)
     {
@@ -306,5 +343,6 @@ function open_side(boole){
        
        side_switch.setAttribute("onclick", "open_side(false)");
        side_switch.innerHTML = "&#10094;";
+       SM_open = true;
     }
 }

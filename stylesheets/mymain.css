@@ -101,14 +101,6 @@ div.big_box{
   flex-direction: column;
   justify-content: space-between;
 }
-.rowincolumn{
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: baseline; /* necessary seemingly only in chrome browser responsive mode */
-  margin-bottom: 15px;
-}
 div.address{
   background-color: white;
   margin: 5px;
@@ -139,6 +131,15 @@ div.datetime > div{
   display: inline-block;
 }
 
+.rowincolumn{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+div.big_box .rowincolumn{
+  align-items: baseline; /* necessary seemingly only in chrome browser responsive mode */
+}
 
 div.popbox{
   display: block;
@@ -162,6 +163,12 @@ button.choice, button.close{
 button.choice{
   width: 90px;
 }
+button.X{
+  float: right;
+  border-style: solid;
+  border-width: 1.5px;
+  border-radius: 15px;
+}
 div.popbox > .rowincolumn{
   justify-content: space-around ;
 }
@@ -176,6 +183,7 @@ p.iwindow{
 button.book{
   background: linear-gradient(rgb(74, 196, 245), rgb(25, 141, 187) ); /* rgb(45, 179, 231);*/
   color: white;
+  padding: 5px 10px;
 }
 
 
@@ -188,14 +196,10 @@ div.profile{
   flex-direction: column;
   padding:1px;
 }
-div.profile > div{
-  color: inherit;
-  background-color: inherit;
-}
 div.profile_top{
   border-bottom: 2px solid black;
-  height: 150px;
-  padding: 0px 30px;
+  min-height: 150px;
+  padding: 5px 5px 10px 30px;
 }
 h1.profile_top{
   font-family: Georgia;
@@ -206,6 +210,31 @@ h1.profile_top{
   top: 20%;
   bottom: 5%;
 }
+/*div.profile_top > .rowincolumn{
+  font-size: 16px;
+  line-height: 1.5;
+  margin-right: 30px;
+}
+div.profile_top > .rowincolumn > div{
+  max-height: 15px;
+  margin-right: 20px;
+  overflow: hidden;
+}*/
+div.profile_info{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: wrap; 
+  line-height: 2;
+  margin-right: 30px;
+}
+div.profile_info > div, div.profile_info > button{
+  font-size: 20px;
+}
+/*button#edit_profile{
+  font-size: 19px;
+}
+*/
 div.profile_bottom{
   padding-left: 30px;
 }
@@ -231,7 +260,7 @@ div.bookedsection{
   width: 15px;
   cursor: pointer;
 }
-#back_profile{
+div.profile_bottom #back_profile{
   margin-top: 20px; 
 }
 
@@ -289,9 +318,16 @@ text-decoration: underline;
     margin-bottom: 20px;
   }
 
+  div.side_menu{
+    flex-basis: 140px;
+  }
   div.side_switch{
     top: auto;
     bottom: 0px;
+  }
+
+  div.m_item{
+    font-size: 18px;
   }
 
   div.popbox{
@@ -302,6 +338,9 @@ text-decoration: underline;
 
   h1.profile_top{
     font-size: 30px;
+  }
+  div.profile_info > div, div.profile_info > button{
+    font-size: 16px;
   }
 
 
