@@ -202,7 +202,7 @@ function renderProfile(){
     else
     {
         // just re-render everything below.
-        old_profilepage = document.getElementsByClassName("profile")[0];
+        let old_profilepage = document.getElementsByClassName("profile")[0];
         wrapper.removeChild( old_profilepage ); 
     }
 
@@ -247,23 +247,27 @@ function renderProfile(){
     let backer_buttons = document.querySelectorAll("#back_profile");
     for (i= 0 ; i< backer_buttons.length ; i++)
     {
-        backer_buttons[i].addEventListener(
+        backer_buttons[i].addEventListener( 
             'click', function(){
-                wrapper.removeChild( profilepage );
-                //side_switch.style.zIndex = init_side_switch_zIndex;
-                //side_switch.style.display = "auto";
-                side_switch.style.display = "";
-                //side_menu.style.flexBasis = "";
-                //side_menu.style.width = '';
-                side_menu.style.flexGrow = "1";
-                //wrapper.style.width = init_wrapper_width;
-                wrapper.style.width = 'auto';
-                profileopen = false;
+                closeprofile(profilepage, wrapper, side_menu, side_switch); 
             }
         );
     }
 }
 
+function closeprofile(profile_page, wrapper, side_menu, side_switch){
+
+    wrapper.removeChild( profile_page );
+    //side_switch.style.zIndex = init_side_switch_zIndex;
+    //side_switch.style.display = "auto";
+    side_switch.style.display = "";
+    //side_menu.style.flexBasis = "";
+    //side_menu.style.width = '';
+    side_menu.style.flexGrow = "1";
+    //wrapper.style.width = init_wrapper_width;
+    wrapper.style.width = 'auto';
+    profileopen = false;
+}
 
 // On click, open the driver profile page
 driverprofile.addEventListener('click', renderProfile); // doesn't seem to work for divs
@@ -344,5 +348,27 @@ function open_side(boole){
        side_switch.setAttribute("onclick", "open_side(false)");
        side_switch.innerHTML = "&#10094;";
        SM_open = true;
+    }
+}
+
+
+function home(){
+    // close all "popbox"s
+    // close profile page
+    let boxes = document.getElementsByClassName("popbox");
+    if (boxes.length > 0)
+    {
+        for (i = 0 ; i < boxes.length ; i++)
+        {
+            boxes[i].remove();
+        }
+    }
+    if (profileopen == true)
+    {
+        let wrapper = document.getElementsByClassName("wrap")[0];
+        let side_menu = document.getElementsByClassName("side_menu")[0];
+        let side_switch = document.getElementsByClassName("side_switch")[0];
+        let profilepage = document.querySelector("div.profile");
+        closeprofile(profilepage, wrapper, side_menu, side_switch);
     }
 }
