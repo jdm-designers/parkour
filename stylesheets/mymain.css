@@ -188,19 +188,21 @@ button.book{
 }
 
 
-div.profile{
+div.profile, div.parkour{
   background-color: rgb(45, 179, 231);
   color: white;
   flex-grow: 1;
   border: 2px solid black;
   display: flex;
   flex-direction: column;
-  padding:1px;
 }
-div.profile_top{
+div.profile_top, div.parkour_top{
   border-bottom: 2px solid black;
   min-height: 150px;
   padding: 5px 5px 10px 30px;
+}
+div.parkour_top{
+  min-height: 100px;
 }
 h1.profile_top{
   font-family: Georgia;
@@ -210,6 +212,10 @@ h1.profile_top{
   position: relative;
   top: 20%;
   bottom: 5%;
+}
+h1.parkour{
+  font-size: 45px;
+  font-family: Georgia;
 }
 /*div.profile_top > .rowincolumn{
   font-size: 16px;
@@ -229,15 +235,19 @@ div.profile_info{
   line-height: 2;
   margin-right: 30px;
 }
-div.profile_info > div, div.profile_info > button{
+div.profile_info > div , div.profile_info > button{
   font-size: 20px;
 }
 /*button#edit_profile{
   font-size: 19px;
 }
 */
+div.parkour_bottom{
+  padding: 10px 30px;
+}
 div.profile_bottom{
   padding-left: 30px;
+  padding-bottom: 10px;
 }
 div.reservations{
   display: flex;
@@ -266,6 +276,8 @@ div.profile_bottom #back_profile{
 }
 
 
+/*=======================*/
+
 a{
   color: white;
   text-decoration: none;
@@ -278,28 +290,16 @@ button{
   border-radius: 7px;
   background: linear-gradient(rgb(251, 253, 253), rgb(191, 212, 221) ); 
   cursor: pointer;
-  
 }
 
 h1 {
   text-align: center;
 }
 
-h2.content{
-  color: black; 
-  text-align: left; 
-  text-decoration: underline;
-}
-/*
-a.menu {
-  color: white;
-  font-size: 22px;
-  text-decoration: none;
-}
-a.menu:hover{
-text-decoration: underline;
-}
-*/
+
+/*============================*/
+
+
 /* All Mobile Sizes (devices and browser) */
 @media only screen and (max-width: 767px) {
   body {
@@ -337,7 +337,7 @@ text-decoration: underline;
     margin: auto;
   }
 
-  h1.profile_top{
+  h1.profile_top, h1.parkour{
     font-size: 30px;
   }
   div.profile_info > div, div.profile_info > button{

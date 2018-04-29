@@ -189,21 +189,25 @@ function renderProfile(){
     var side_menu = document.getElementsByClassName("side_menu")[0];
     var side_switch = document.getElementsByClassName("side_switch")[0];
 
-    if (profileopen == false)
+    if (rightsideopen == false)
     {
-        profileopen = true;
-
-        //side_menu.style.flexBasis = init_wrapper_width;
-        //side_menu.style.width = init_wrapper_width;
-        side_menu.style.flexGrow = "0";
-        wrapper.style.width = "100%";
-        side_switch.style.display = "none";
+        open_RightSide(true);
     }
     else
     {
-        // just re-render everything below.
-        let old_profilepage = document.getElementsByClassName("profile")[0];
-        wrapper.removeChild( old_profilepage ); 
+        let profilepage = document.querySelector("div.profile");
+        if (profilepage != null)
+        {
+            // just re-render everything below.
+            let old_profilepage = document.getElementsByClassName("profile")[0];
+            wrapper.removeChild( old_profilepage ); 
+        }
+        else // must be the Parkour page that is open
+        {
+            let parkourpage = document.querySelector('div.parkour');
+            wrapper.removeChild( parkourpage );
+        }
+        
     }
 
     var profilepage = document.createElement("div");
@@ -244,29 +248,15 @@ function renderProfile(){
     wrapper.appendChild( profilepage );
 
     //let backbutton = document.getElementById(backbutton_id);
-    let backer_buttons = document.querySelectorAll("#back_profile");
+    let backer_buttons = document.querySelectorAll("#"+backbutton_id);
     for (i= 0 ; i< backer_buttons.length ; i++)
     {
         backer_buttons[i].addEventListener( 
             'click', function(){
-                closeprofile(profilepage, wrapper, side_menu, side_switch); 
+                open_RightSide(false, profilepage); 
             }
         );
     }
-}
-
-function closeprofile(profile_page, wrapper, side_menu, side_switch){
-
-    wrapper.removeChild( profile_page );
-    //side_switch.style.zIndex = init_side_switch_zIndex;
-    //side_switch.style.display = "auto";
-    side_switch.style.display = "";
-    //side_menu.style.flexBasis = "";
-    //side_menu.style.width = '';
-    side_menu.style.flexGrow = "1";
-    //wrapper.style.width = init_wrapper_width;
-    wrapper.style.width = 'auto';
-    profileopen = false;
 }
 
 // On click, open the driver profile page
@@ -309,6 +299,38 @@ function X_reservation(ind){ // This is when they click the X button in the Prof
     }
 }
 
+
+function open_RightSide(boole, rightside_page=null){
+    var wrapper = document.getElementsByClassName("wrap")[0];
+    var side_menu = document.getElementsByClassName("side_menu")[0];
+    var side_switch = document.getElementsByClassName("side_switch")[0];
+
+    if (boole == false)
+    {
+        wrapper.removeChild( rightside_page );
+        //side_switch.style.zIndex = init_side_switch_zIndex;
+        //side_switch.style.display = "auto";
+        side_switch.style.display = "";
+        //side_menu.style.flexBasis = "";
+        //side_menu.style.width = '';
+        side_menu.style.flexGrow = "1";
+        //wrapper.style.width = init_wrapper_width;
+        wrapper.style.width = 'auto';
+        rightsideopen = false;
+    }
+    else
+    {
+        //side_menu.style.flexBasis = init_wrapper_width;
+        //side_menu.style.width = init_wrapper_width;
+        side_menu.style.flexGrow = "0";
+        wrapper.style.width = "100%";
+        side_switch.style.display = "none";
+        rightsideopen = true;
+    }    
+}
+
+
+
 function open_side(boole){
     //let wrapper = document.querySelector("div.wrap");
     let side_menu = document.querySelector("div.side_menu");
@@ -350,6 +372,11 @@ function open_side(boole){
        SM_open = true;
     }
 }
+if (bodydisplay == 'flex')// this will only happen if screen size is small ... according to my stylesheet
+{
+    open_side(false);
+}
+
 
 
 function home(){
@@ -363,12 +390,76 @@ function home(){
             boxes[i].remove();
         }
     }
-    if (profileopen == true)
+    if (rightsideopen == true)
     {
-        let wrapper = document.getElementsByClassName("wrap")[0];
-        let side_menu = document.getElementsByClassName("side_menu")[0];
-        let side_switch = document.getElementsByClassName("side_switch")[0];
         let profilepage = document.querySelector("div.profile");
-        closeprofile(profilepage, wrapper, side_menu, side_switch);
+        if (profilepage != null)
+        {
+            open_RightSide(false, profilepage);
+        }
+        else // must be the Parkour page
+        {
+            let parkourpage = document.querySelector("div.parkour");
+            open_RightSide(false, parkourpage);
+        }
+        
     }
 }
+
+
+function renderParkour(){
+    
+    let profilepage = document.querySelector("div.profile");
+    if (profilepage != null)
+    {
+        open_RightSide(false, profilepage);
+    }
+
+    if ( rightsideopen == false )
+    {
+        open_RightSide(true);
+    }
+
+    var parkourpage = document.querySelector("div.parkour");
+    if (parkourpage == null)
+    {
+        let wrapper = document.getElementsByClassName("wrap")[0];
+
+        parkourpage = document.createElement("div");
+        parkourpage.className = "parkour";
+
+        let backbutton_id = "back_parkour";
+        insideparkour = `<div class="parkour_top">`+
+        `<button class="X" id="${backbutton_id}">x</button> <h1 class="Parkour">Parkour</h1>`+
+        `<center><h2>By Janet Ho, Maurice Wilson, Dhruv Suri</h3></center>`+
+        `</div>`+
+        `<div class="parkour_bottom">`+
+        `<h3>Problem</h3>`+problem_text+
+        `<h3>Design Process</h3>`+process_text+
+        `<h3>The Foreseeable Impact</h3>`+impact_text+
+        `<button class="close" id="${backbutton_id}">Back</button>`+ // hard-coded the ID
+        `</div>`;       
+        
+        parkourpage.innerHTML = insideparkour;
+
+        wrapper.appendChild( parkourpage );
+
+        let backer_buttons = document.querySelectorAll("#"+backbutton_id);
+        for (i= 0 ; i< backer_buttons.length ; i++)
+        {
+            backer_buttons[i].addEventListener( 
+                'click', function(){
+                    open_RightSide(false, parkourpage); 
+                }
+            );
+        }
+    }
+}
+
+var problem_text = `<p>In today’s day and age, parking in metropolitan cities has increasingly become an issue. People attempting to find a space in a busy neighborhood will drive around for minutes on end until a meter opens up, or finally give in to paying exorbitant parking fees in large garages. According to some of the users we surveyed, parking has become such a source of anxiety and headache that they would rather not own a car and just use ride sharing apps forever. Owning a car has become increasingly more and more expensive as the costs to keep it not only include upkeep but also hundreds of dollars per month for parking. And while public transportation and ride sharing continue to be options for daily commuters, we don’t believe that they serve as a permanent solution to this parking problem as they are oftentimes unreliable, slow, and even more costly in the long run.</p>
+<p>Our team endeavored to create a solution for current car owners who want to drive their cars and not worry about finding parking. We wanted to utilize free private parking spaces that people have empty and encourage them to rent them out by the hour. In essence, we wanted to create a platform that would connect drivers with cars to owners who had extra parking spaces during the day. The solution we envisioned would be quick and easy to use and would allow drivers to book their spaces as far in advance as possible and pay meter-equivalent prices. In addition, it would be an easy source of income for the hosts who have empty parking spaces.  If successfully, we believe our solution would further turn our society into a resource-sharing economy. Because of the two sided nature of our solution, our target population would be drivers who own cars and commute frequently into busy areas and parking space owners who live in busy metropolitan areas.</p>`;
+
+var process_text = `<p>Our design process began by thinking about the personal needs of the team and those of the people around us. We realized that, as car owners, all of us found parking to be a big issue. We decided to survey and interview a variety of different demographics that were all car owners and decided that the parking nightmare was an almost universal issue that people faced. After that, we decided to interview people who owned parking spaces and found out that they were really receptive to the idea of renting their spaces out by the hour and making easy money.</p>
+<p>From there, we looked at a various successful apps, namely Uber and Airbnb and analyzed what made their apps easy to use and effective. We incorporated many components into our first interface like a map feature and a calendar features and through many iterative user testing processes decided to keep them. One big design change was splitting the driver user experience and host user experience into different interfaces. We decided that it was confusing for both actions to be on the same app and instead created a website where parking spot owners can add their spot and manage it.</p>`;
+
+var impact_text = `<p>We hope that Parkour’s impact will be vast and help solve a common headache many people hate dealing with. While our current prototype doesn’t allow people to book recurrent reservations, we hope that in the future, our app can be utilized to allow people to book their spaces months in advance if they drive to work everyday. We also believe that hosts who have free parking spaces will benefit greatly from doing little to no work and receive a small but steady income from renting out their spot. All in all, we believe our solution generates net positive social utility on all ends.</p>`;

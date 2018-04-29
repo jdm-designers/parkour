@@ -36,7 +36,7 @@ var Nphonyspots = 10;
 var infowindows = [];
 var address_marker;
 var address_iwindow;
-var profileopen = false;
+var rightsideopen = false;
 var SM_open = true;
 
 var goButton = document.querySelector(".form");
@@ -52,6 +52,8 @@ let side_menu = document.querySelector("div.side_menu");
 var init_side_menu_innerHTML = side_menu.innerHTML;  
 let side_menu_style = window.getComputedStyle(side_menu);
 var init_side_menu_flexBasis = side_menu_style.flexBasis;
+
+var bodydisplay = window.getComputedStyle( document.querySelector("body") ).display;
 
 let side_switch = document.querySelector("div.side_switch");
 side_switch.style.left = init_side_menu_flexBasis;  // Setting the "left" style of the side switch.
@@ -75,6 +77,7 @@ for (i=0 ; i < Form_fields.length ; i++)
         }
     )
 } 
+
 
 
 //======= Code that needs Google Maps API ===========
