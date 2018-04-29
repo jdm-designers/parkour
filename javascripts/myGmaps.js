@@ -34,6 +34,8 @@ var markers = [];
 var Pspots = [];
 var Nphonyspots = 10;
 var infowindows = [];
+var address_marker;
+var address_iwindow;
 var profileopen = false;
 var SM_open = true;
 
@@ -213,7 +215,16 @@ function formFilled(pos){
     let latitude = pos.lat;
     let longitude = pos.lng;
 
-    // if there are any markers, delete them. Or they just have to refresh the page.... For now, they just have to refresh the page.
+    address_marker = addOtherMarker(pos, "https://jdm-designers.github.io/parkour/images/gmaps_bluepin2_resized.png");
+    address_iwindow = new google.maps.InfoWindow({
+        content: `<h1>${F_address}</h1>`
+      });
+    address_marker.addListener( // "addEventListener" does not work
+        'click', function(){
+            closeInfoWindows();
+            address_iwindow.open(map, address_marker);
+        }
+    )
 
     // add markers where all of the posted parking spots should be (near the address).!
     for (i=1; i < 11; i++) // add 10 markers
@@ -264,9 +275,12 @@ function formFilled(pos){
 
         markers[i].addListener(
             'click', function(){ 
+                // close all other windows first
+                closeInfoWindows();
+
                 //let ind  = (this.tagger-1) % Nphonyspots ;
                 let ind = this.tagger-initial_tagger-1;
-                infowindows[ind].open( map, this ) // "this" refers to the marker object // the FOR loop is not active here so the "i" counter isn't available. // since tagger can be more than Nphonyspots I needed to divide by 10 and then find the remainder, and then subtract by 1 to make it an index.
+                infowindows[ind].open( map, this ); // "this" refers to the marker object // the FOR loop is not active here so the "i" counter isn't available. // since tagger can be more than Nphonyspots I needed to divide by 10 and then find the remainder, and then subtract by 1 to make it an index.
 
                 var objecttag = this.tagger ;
                 var owner_name = this.owner;
@@ -333,9 +347,28 @@ function addMarker(location, tag, name, parkaddress, parkdate, parkstart, parken
             time_end: parkend
         }
     );
-        
     return marker
 };
+
+function addOtherMarker(location, icon_src){
+    let marker = new google.maps.Marker(
+        {
+            position: location,
+            map: map,
+            icon: icon_src
+        }
+    );
+    return marker
+}
+
+function closeInfoWindows(){
+    for (iw = 0 ; iw < infowindows.length ; iw++)
+    {
+        infowindows[iw].close(map, markers[iw]);
+    }
+
+    address_iwindow.close(map,address_marker);
+}
 
 
 /* Thanks to the "addListener" this is no longer needed.
