@@ -29,3 +29,11 @@ img.x_close{
 	width: 15px;
 	cursor: pointer;
   }
+
+.driverReservation {
+	height: 140px;
+	width: 300px;
+	background-color: white;
+	color: black;
+	margin-left: 20px;
+}
