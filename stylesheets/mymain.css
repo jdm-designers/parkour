@@ -7,8 +7,8 @@ body, html{
 
 body {
   color: black;
-  font-family: TimesNewRoman,Times New Roman,Times,Baskerville,Georgia,serif; 
-  font-size: 16px;
+  font-family: 'Merriweather', serif;/*TimesNewRoman,Times New Roman,Times,Baskerville,Georgia,serif; */ /* this merriweather font has changed the font size by 2 pixels for most things.
+  font-size: 14px;/*16px;*/
   background-color: white;
 }
 
@@ -53,7 +53,7 @@ div.side_menu{
 }
 div.m_item{
   color: white;
-  font-size: 22px;
+  font-size: 20px;/*22px;*/
   padding: 10px 15px 10px 15px;
   text-align: center;
 }
@@ -71,7 +71,7 @@ div.side_switch{
   color: white;
   background-color: rgba(175,173,173, 0.80);
   padding: 2px;
-  font-size: 22px;
+  font-size: 20px;/*22px;*/
   font-weight: bold;
   cursor: pointer;
   text-align: center;
@@ -93,7 +93,7 @@ div.big_box{
   right: 60px;
   z-index: 5;
   /* background-color: #AFADAD;*/
-  background:rgba(175,173,173, 0.80);
+  background:rgba(175,173,173, 0.85);
   padding: 20px;
   margin-top: 10px;
   border: 3px solid black;
@@ -118,7 +118,7 @@ div.address{
   filter: alpha(opacity=50);
 }
 #address{
-  font-size: 11px;
+  font-size: 11px;/* still looks good this way, for some reason*/
 }
 button.form{
 margin-right: 10px;
@@ -130,6 +130,7 @@ div.datetime{
 div.datetime > div{
   /*display: inline;*/
   display: inline-block;
+  font-size: 12px; /* needed now for some reason.*/
 }
 
 .rowincolumn{
@@ -153,7 +154,7 @@ div.popbox{
   z-index: 5;
   padding: 10px;
   border: 2px solid black;
-  font-size: 22px;
+  font-size: 20px/*22px*/;
   text-align: center;
 }
 button.choice, button.close{
@@ -179,7 +180,7 @@ div.iwindow{
   line-height: 1.5;
 }
 p.iwindow{
-  font-size: 16px;
+  font-size: 16px; /*still looks same*/
   /* line-height: 10px; consider this! */
 }
 button.book{
@@ -240,7 +241,7 @@ div.profile_info{
   margin-right: 30px;
 }
 div.profile_info > div , div.profile_info > button{
-  font-size: 20px;
+  font-size: 18px/*20px*/;
 }
 /*button#edit_profile{
   font-size: 19px;
@@ -261,7 +262,7 @@ div.reservations{
 div.bookedsection{
   color: black;
   background-color: white;
-  font-size: 18px;
+  font-size: 16px /*18px;*/
   min-height: 50px;
   max-width: 400px;
   border: 2px solid black;
@@ -289,7 +290,7 @@ a{
 
 button{
   text-align: center;
-  font-size: 18px;
+  font-size: 18px; /* if this is 16px, the outline will look very grey. The bigger the button, the darker the gradient, it seems.*/
   border: 2px outset grey;
   border-radius: 7px;
   background: linear-gradient(rgb(251, 253, 253), rgb(191, 212, 221) ); 
@@ -310,7 +311,7 @@ h1 {
     background-color: white;
     display: flex;
     flex-direction: column;
-    font-size: 14px;
+    font-size: 12px/*14px*/;
   }
   
   div.big_box{
@@ -333,7 +334,7 @@ h1 {
   }
 
   div.m_item{
-    font-size: 18px;
+    font-size: 16px;/*18px;*/
   }
 
   div.popbox{
@@ -342,11 +343,15 @@ h1 {
     margin: auto;
   }
 
+  p.iwindow{
+    font-size: 14px;
+  }
+
   h1.profile_top, h1.parkour{
-    font-size: 30px;
+    font-size: 28px /*30px;*/
   }
   div.profile_info > div, div.profile_info > button{
-    font-size: 16px;
+    font-size: 14px /*16px;*/
   }
 
 

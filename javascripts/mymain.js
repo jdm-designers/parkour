@@ -14,7 +14,7 @@ addressbar.onclick = function(){
 let today = new Date().toISOString().split('T')[0]; // get only yyyy-mm-dd
 let datechoose = document.getElementById("parkdate");
 datechoose.min = today;
-datechoose.defaultValue = today; // visible on website but not on phones.
+//datechoose.defaultValue = today; // visible on website but not on phones. Works though.
 datechoose.value = today;
 
 let parkstartchoose = document.querySelector("#parkstart");

@@ -54,9 +54,9 @@ var bodydisplay = window.getComputedStyle( document.querySelector("body") ).disp
 
 // Set the "left" style of the side switch.
 let side_switch = document.querySelector("div.side_switch");
-side_switch.style.left = init_side_menu_flexBasis;  
+side_switch.style.left = side_menu_style.width;  //init_side_menu_flexBasis;
 // side_switch_style.left = init_side_menu_flexBasis; this can't be done... Error: "Uncaught DOMException: Failed to set the 'left' property on 'CSSStyleDeclaration': These styles are computed, and therefore the 'left' property is read-only.""
-var init_side_switch_left = init_side_menu_flexBasis;
+var init_side_switch_left = side_switch.style.left ; //init_side_menu_flexBasis;
 
 // Make sure the "enter" key acts as a proxy for the Go button.
 let address_field = document.querySelector("input#address");
@@ -217,6 +217,7 @@ function formFilled(pos){
     let latitude = pos.lat;
     let longitude = pos.lng;
 
+    // In this blue pin strategy, I'll have to later account for multiple blue pins by making the address_marker variable an array
     address_marker = addOtherMarker(pos, "https://jdm-designers.github.io/parkour/images/gmaps_bluepin2_resized.png");
     address_iwindow = new google.maps.InfoWindow({
         content: `<h1>${F_address}</h1>`
