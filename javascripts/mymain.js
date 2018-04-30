@@ -1,5 +1,6 @@
 
 
+//========== Set up default values ============
 
 // on click ... delete the default "value" in the address box
 var addressbarclicks = 0;
@@ -13,7 +14,8 @@ addressbar.onclick = function(){
 let today = new Date().toISOString().split('T')[0]; // get only yyyy-mm-dd
 let datechoose = document.getElementById("parkdate");
 datechoose.min = today;
-datechoose.defaultValue = today;
+datechoose.defaultValue = today; // visible on website but not on phones.
+datechoose.value = today;
 
 let parkstartchoose = document.querySelector("#parkstart");
 let preTtext = ''; 
@@ -22,7 +24,7 @@ parkstartchoose.value = preTtext+String(  (new Date().getHours() + 1) % 24  )+":
 
 
 
-// All non-Gmaps API necessary functions
+// All non-Gmaps-API necessary functions
 
 
 function messagebox(text, selector_Pelement){

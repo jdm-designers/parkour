@@ -41,25 +41,24 @@ var SM_open = true;
 
 var goButton = document.querySelector(".form");
 var driverprofile = document.querySelector("#driverprofile");
-/*
-var init_wrapper_width = document.getElementsByClassName("wrap")[0].style.width;
-var init_side_menu_innerHTML = document.querySelector("div.side_menu").innerHTML;
-let init_side_switch = document.querySelector("div.side_switch");
-var init_side_switch_left = init_side_switch.style.left;
-var init_side_switch_zIndex = init_side_switch.style.zIndex;
-*/
+
+//========== set up styles and events ==========
+
+// the web site starts with the side menu open. So get all of those values now.  (If this is on a small screen, the other JS script will close the side menu.)
 let side_menu = document.querySelector("div.side_menu");
 var init_side_menu_innerHTML = side_menu.innerHTML;  
 let side_menu_style = window.getComputedStyle(side_menu);
 var init_side_menu_flexBasis = side_menu_style.flexBasis;
 
-var bodydisplay = window.getComputedStyle( document.querySelector("body") ).display;
+var bodydisplay = window.getComputedStyle( document.querySelector("body") ).display; // this will be used to determine if the screen size is small like a phone or not.
 
+// Set the "left" style of the side switch.
 let side_switch = document.querySelector("div.side_switch");
-side_switch.style.left = init_side_menu_flexBasis;  // Setting the "left" style of the side switch.
+side_switch.style.left = init_side_menu_flexBasis;  
 // side_switch_style.left = init_side_menu_flexBasis; this can't be done... Error: "Uncaught DOMException: Failed to set the 'left' property on 'CSSStyleDeclaration': These styles are computed, and therefore the 'left' property is read-only.""
 var init_side_switch_left = init_side_menu_flexBasis;
 
+// Make sure the "enter" key acts as a proxy for the Go button.
 let address_field = document.querySelector("input#address");
 let date_field = document.querySelector("input#parkdate");
 let Tstart_field = document.querySelector("input#parkstart");
