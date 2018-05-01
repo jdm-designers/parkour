@@ -132,6 +132,7 @@ div.datetime > div{
   /*display: inline;*/
   display: inline-block;
   font-size: 12px; /* needed now for some reason.*/
+  margin-top: 5px;
 }
 
 .rowincolumn{
@@ -198,10 +199,13 @@ div.profile, div.parkour{
   border: 2px solid black;
   display: flex;
   flex-direction: column;
+  min-width: 400px;
 }
+/*
 div.parkour{
-  min-width: 300px; /* since it only contains text (and not rigid-width div-blocks) it can be smushed forever.*/
+  min-width: 300px; /* since it only contains text (and not rigid-width div-blocks) it can be smushed forever.
 }
+*/
 div.profile_top, div.parkour_top{
   border-bottom: 2px solid black;
   min-height: 150px;
@@ -218,6 +222,9 @@ h1.profile_top{
   position: relative;
   top: 20%;
   bottom: 5%;
+}
+div.welcome{
+  display:block;
 }
 h1.parkour{
   font-size: 45px;

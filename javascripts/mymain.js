@@ -243,7 +243,7 @@ function renderProfile(){
 
     let backbutton_id = "back_profile";
     let insideprofile = `<div class="profile_top">`+
-    `<button class="X" id="${backbutton_id}">x</button> <h1 class="profile_top">Hello, Leonardo DiCaprio!</h1>`+
+    `<button class="X" id="${backbutton_id}">x</button> <div class="welcome"><h1 class="profile_top">Hello, Leonardo DiCaprio!</h1></div>`+
     `<div class="profile_info">   <div>Email: TitanicBoy@college.harvard.edu</div> <div>Payment method: Visa card ending in 9876</div> <button id="edit_profile">Edit Profile Info</button>   </div>`+
     `</div>`+
     `<div class="profile_bottom">`+
