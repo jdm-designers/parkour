@@ -11,11 +11,17 @@ addressbar.onclick = function(){
 }
 
 // find today's real date and put that as the "min" value of the input parkstart tag
-let today = new Date().toISOString().split('T')[0]; // get only yyyy-mm-dd
+let today = new Date() ; // get only yyyy-mm-dd
+let yyyy = String( today.getFullYear() );
+let mm = String( today.getMonth()+1 ); 
+if (mm < 10){ mm = "0"+mm }
+let dd = String( today.getDate() );
+if (dd < 10){ dd = "0"+dd }
+let today_proper = yyyy+"-"+mm+"-"+dd ;
 let datechoose = document.getElementById("parkdate");
-datechoose.min = today;
+datechoose.min = today_proper;
 //datechoose.defaultValue = today; // visible on website but not on phones. Works though.
-datechoose.value = today;
+datechoose.value = today_proper;
 
 let parkstartchoose = document.querySelector("#parkstart");
 let preTtext = ''; 
@@ -315,16 +321,17 @@ function open_RightSide(boole, rightside_page=null){
         side_switch.style.display = "";
         //side_menu.style.flexBasis = "";
         //side_menu.style.width = '';
-        side_menu.style.flexGrow = "1";
-        //wrapper.style.width = init_wrapper_width;
-        wrapper.style.width = 'auto';
+
+        //side_menu.style.flexGrow = "1";
+        wrapper.style.width = 'auto'; //wrapper.style.width = init_wrapper_width;
         rightsideopen = false;
     }
     else
     {
         //side_menu.style.flexBasis = init_wrapper_width;
         //side_menu.style.width = init_wrapper_width;
-        side_menu.style.flexGrow = "0";
+        
+        //side_menu.style.flexGrow = "0";
         wrapper.style.width = "100%";
         side_switch.style.display = "none";
         rightsideopen = true;
@@ -346,7 +353,8 @@ function open_side(boole){
         */
         side_menu.innerHTML = '';
         //side_menu.style.flexShrink = "0"; // using the ".style" receieves and changes the inline HTML
-        side_menu.style.flexGrow = "0";
+        
+        //side_menu.style.flexGrow = "0";
         side_menu.style.flexBasis = "10px";
         side_switch.style.left = "10px";
         side_switch.setAttribute("onclick", "open_side(true)");
@@ -362,7 +370,8 @@ function open_side(boole){
         */
        side_switch.style.left = init_side_switch_left;
        //side_menu.style.flexShrink = '0';
-       side_menu.style.flexGrow = '1';
+       
+       //side_menu.style.flexGrow = '1';
        side_menu.style.flexBasis = init_side_menu_flexBasis;
 
        side_menu.innerHTML = init_side_menu_innerHTML;

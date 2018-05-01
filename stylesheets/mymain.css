@@ -46,8 +46,9 @@ div.side_menu{
   filter: alpha(opacity=80); /* IE8 and lower */
 
   padding-top: 20px;
-  flex-shrink: 0;
-  flex-grow: 1; /* grows further than the text needs it to. */
+  flex-shrink: 0; 
+  /*flex-grow: 1;*/ /* grows further than the text needs it to. */
+  flex-grow: 0;
   flex-basis: 180px;
   border: 3px solid black;
 }
@@ -242,6 +243,7 @@ div.profile_info{
 }
 div.profile_info > div , div.profile_info > button{
   font-size: 18px/*20px*/;
+  margin-right: 10px;
 }
 /*button#edit_profile{
   font-size: 19px;
@@ -262,7 +264,7 @@ div.reservations{
 div.bookedsection{
   color: black;
   background-color: white;
-  font-size: 16px /*18px;*/
+  font-size: 16px; /*18px;*/
   min-height: 50px;
   max-width: 400px;
   border: 2px solid black;
@@ -334,7 +336,7 @@ h1 {
   }
 
   div.m_item{
-    font-size: 16px;/*18px;*/
+    font-size: 14px;/*18px;*/
   }
 
   div.popbox{
@@ -348,10 +350,10 @@ h1 {
   }
 
   h1.profile_top, h1.parkour{
-    font-size: 28px /*30px;*/
+    font-size: 28px; /*30px;*/
   }
   div.profile_info > div, div.profile_info > button{
-    font-size: 14px /*16px;*/
+    font-size: 14px; /*16px;*/
   }
 
 

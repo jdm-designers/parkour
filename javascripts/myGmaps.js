@@ -201,15 +201,15 @@ function initMap() { // get or pick location to center on Map
 
 function formFilled(pos){
     let F_address = document.getElementById("address").value;
-    let F_parkdate = document.getElementById("parkdate").value;
+    let F_parkdate = document.getElementById("parkdate").value; // the month is 1-based here.
     let F_parkstart = document.getElementById("parkstart").value;
     let F_parkend = document.getElementById("parkend").value;
 
     let y_m_d = F_parkdate.split("-");
-    let year = y_m_d[0];
-    let month = y_m_d[1];
-    let day = y_m_d[2];
-    let human_date =  new Date(year,month,day).toDateString();
+    let year = Number(y_m_d[0]);
+    let month = Number(y_m_d[1])-1; //Months are zero-based for the ".toDateString()" method
+    let day = Number(y_m_d[2]);
+    let human_date =  (new Date(year,month,day) ).toDateString();
 
     F_parkstart = timestring(F_parkstart);
     F_parkend = timestring(F_parkend);
